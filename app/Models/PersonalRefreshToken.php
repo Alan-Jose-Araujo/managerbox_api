@@ -15,7 +15,7 @@ class PersonalRefreshToken extends Model
         'expires_at'
     ];
 
-    public static function generate(User $user)
+    public static function generate($user)
     {
         return self::create([
             'token' => Str::random(64),
@@ -23,4 +23,13 @@ class PersonalRefreshToken extends Model
             'expires_at' => now()->addMinutes(config('sanctum.refresh_token_expiration'))
         ]);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    protected $casts = [
+        'expires_at' => 'datetime',
+    ];
 }
