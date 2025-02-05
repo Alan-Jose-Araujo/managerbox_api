@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -23,12 +25,19 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $personFaker = new \Faker\Provider\pt_BR\Person(fake());
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'cpf' => $personFaker->cpf(false),
+            'phone_number' => preg_replace('/\D/', '', fake()->phoneNumber()),
+            'birth_date' => fake()->randomElement([fake()->date(), null]),
+            'last_activity' => fake()->randomElement([fake()->time('Y-m-d H:i:s'), null]),
+            'is_active' => fake()->randomElement([true, false]),
+            'company_id' => Company::factory(),
         ];
     }
 

@@ -16,8 +16,20 @@ class CompanyFactory extends Factory
      */
     public function definition(): array
     {
+        $companyFaker = new \Faker\Provider\pt_BR\Company(fake());
         return [
-            //
+            'fantasy_name' => fake()->company(),
+            'corporate_reason' => fake()->name(),
+            'email' => fake()->companyEmail(),
+            'email_verified_at' => now(),
+            'cnpj' => $companyFaker->cnpj(false),
+            'state_registration' => (string) fake()->unique()->randomNumber(9),
+            'foundation_date' => fake()->randomElement([null, fake()->date()]),
+            'landline' => (string) fake()->unique()->randomNumber(8),
+            'is_active' => fake()->boolean(),
+            'timezone' => fake()->timezone('BR'),
+            'currency_code' => fake()->currencyCode(),
+            'currency_decimal_places' => 2,
         ];
     }
 }
