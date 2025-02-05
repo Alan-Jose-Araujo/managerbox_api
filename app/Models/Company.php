@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\Models\CompanyModelAccessors;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, CompanyModelAccessors;
 
     protected $table = 'companies';
 
@@ -27,4 +28,19 @@ class Company extends Model
         'currency_code',
         'currency_decimal_places',
     ];
+
+    protected $casts = [
+        'foundation_date' => 'date',
+        'is_active' => 'boolean',
+    ];
+
+    public function employees()
+    {
+        return $this->hasMany(User::class, 'company_id');
+    }
+
+    public function address()
+    {
+        return $this->morphOne(Address::class, 'addressable');
+    }
 }
