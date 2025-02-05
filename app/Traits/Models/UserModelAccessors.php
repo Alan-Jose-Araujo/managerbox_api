@@ -6,7 +6,7 @@ trait UserModelAccessors
 {
     public function getProfilePicturePathAttribute(): string
     {
-        if($this->profile_picture_path) {
+        if(property_exists($this, 'profile_picture_path')) {
             return asset("storage/profile_pictures/$this->profile_picture_path");
         }
 
