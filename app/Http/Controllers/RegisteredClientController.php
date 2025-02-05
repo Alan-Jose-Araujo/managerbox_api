@@ -9,6 +9,7 @@ use App\Models\Company;
 use App\Models\PersonalRefreshToken;
 use App\Models\User;
 use App\Traits\Http\SendJsonResponses;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -104,7 +105,7 @@ class RegisteredClientController extends Controller
            return response()->json([
                'success' => true,
                'access_token' => $accessToken,
-           ])->cookie('refresh_token', $refreshToken->token, 60 * 24 * 7, '/', null, true, true);
+           ], Response::HTTP_CREATED)->cookie('refresh_token', $refreshToken->token, 60 * 24 * 7, '/', null, true, true);
        }
        catch (\Exception $exception)
        {
