@@ -1,0 +1,822 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Manager Box API",
+        "description": "Documentação da API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Servidor de desenvolvimento"
+        }
+    ],
+    "paths": {
+        "/register":{
+            "post": {
+                "summary": "Register a new client (Company and User)",
+                "tags": ["Account"],
+                "operationId": "register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+
+                                    "company_name": {
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "Weimann e Cremin",
+                                        "minLength": 3,
+                                        "maxLength": 255,
+                                        "pattern": "[\\p{L}0-9&.,'()\\-\\s]+"
+                                    },
+
+                                    "company_corporate_reason": {
+                                        "description": "Company corporate reason",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "Weimann e Cremin LTDA",
+                                        "minLength": 4,
+                                        "maxLength": 255,
+                                        "pattern": "[\\p{L}0-9&.,'()\\-\\s]+"
+                                    },
+
+                                    "company_email": {
+                                        "description": "Company email",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "weimannecremin@contact.com",
+                                        "maxLength": 255,
+                                        "pattern": "[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+"
+                                    },
+
+                                    "company_cnpj": {
+                                        "description": "Company CNPJ",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "12345678901234",
+                                        "minLength": 14,
+                                        "maxLength": 255,
+                                        "pattern": "\\d{14}"
+                                    },
+
+                                    "company_state_registration": {
+                                        "description": "Company state registration",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "123456789",
+                                        "minLength": 9,
+                                        "maxLength": 9,
+                                        "pattern": "\\d{9}"
+                                    },
+
+                                    "company_foundation_date": {
+                                        "description": "Company foundation date",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "2002-04-15",
+                                        "pattern": "\\d{4}\\-\\d{2}-\\d{2}"
+                                    },
+
+                                    "company_landline": {
+                                        "description": "Company landline number",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "12345678",
+                                        "pattern": "\\d{8}"
+                                    },
+
+                                    "user_name": {
+                                        "description": "User name",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "Mark Carter",
+                                        "minLength": 3,
+                                        "maxLength": 255,
+                                        "pattern": "(?!.*\\s{2})[A-ZÁÀÂÃÉÈÍÏÓÔÕÖÚÜÑa-záàâãéèíïóôõöúüñ.'’\\-]{2,100}"
+                                    },
+
+                                    "user_email": {
+                                        "description": "User email",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "markcarter@example.com",
+                                        "maxLength": 255,
+                                        "pattern": "[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+"
+                                    },
+
+                                    "user_password": {
+                                        "description": "User password",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "password",
+                                        "minLength": 8,
+                                        "maxLength": 255
+                                    },
+
+                                    "user_user_cpf": {
+                                        "description": "User cpf number",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "12345678901",
+                                        "minLength": 11,
+                                        "maxLength": 11,
+                                        "pattern": "\\d{11}"
+                                    },
+
+                                    "user_phone_number": {
+                                        "description": "User phone number",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "12345678901",
+                                        "minLength": 9,
+                                        "maxLength": 9,
+                                        "pattern": "\\d{9}"
+                                    },
+
+                                    "company_address_street": {
+                                        "description": "Company address street",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "Weimann Inlet",
+                                        "minLength": 9,
+                                        "maxLength": 9
+                                    },
+
+                                    "company_address_building_number": {
+                                        "description": "Company address building number",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "123",
+                                        "minLength": 2,
+                                        "maxLength": 5
+                                    },
+
+                                    "company_address_complement": {
+                                        "description": "Company address complement",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "Nearby café",
+                                        "minLength": 3,
+                                        "maxLength": 500
+                                    },
+
+                                    "company_address_neighborhood": {
+                                        "description": "Company address neighborhood",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "Grove Street",
+                                        "minLength": 3,
+                                        "maxLength": 500
+                                    },
+
+                                    "company_address_city": {
+                                        "description": "Company address city",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "East Crawford",
+                                        "minLength": 3,
+                                        "maxLength": 255
+                                    },
+
+                                    "company_address_state": {
+                                        "description": "Company address state",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "GA",
+                                        "minLength": 2,
+                                        "maxLength": 2,
+                                        "pattern": "\\D{2}"
+                                    },
+
+                                    "company_address_zipcode": {
+                                        "description": "Company address zipcode",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "12345678",
+                                        "minLength": 8,
+                                        "maxLength": 8,
+                                        "pattern": "\\d{8}"
+                                    },
+
+                                    "company_address_country": {
+                                        "description": "Company address country",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "US",
+                                        "minLength": 2,
+                                        "maxLength": 2,
+                                        "pattern": "\\D{2}"
+                                    },
+
+                                    "user_wants_to_register_address": {
+                                        "description": "User wants to register address",
+                                        "required": false,
+                                        "type": "boolean",
+                                        "default": false
+                                    },
+
+                                    "user_address_street": {
+                                        "description": "User address street, required if user_wants_to_register_address is true",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "Weimann Inlet",
+                                        "minLength": 9,
+                                        "maxLength": 9
+                                    },
+
+                                    "user_address_building_number": {
+                                        "description": "User address building, required if user_wants_to_register_address is true number",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "123",
+                                        "minLength": 2,
+                                        "maxLength": 5
+                                    },
+
+                                    "user_address_complement": {
+                                        "description": "User address complement, required if user_wants_to_register_address is true",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "Nearby café",
+                                        "minLength": 3,
+                                        "maxLength": 500
+                                    },
+
+                                    "user_address_neighborhood": {
+                                        "description": "User address neighborhood, required if user_wants_to_register_address is true",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "Grove Street",
+                                        "minLength": 3,
+                                        "maxLength": 500
+                                    },
+
+                                    "user_address_city": {
+                                        "description": "User address city, required if user_wants_to_register_address is true",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "East Crawford",
+                                        "minLength": 3,
+                                        "maxLength": 255
+                                    },
+
+                                    "user_address_state": {
+                                        "description": "User address state, required if user_wants_to_register_address is true",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "GA",
+                                        "minLength": 2,
+                                        "maxLength": 2,
+                                        "pattern": "\\D{2}"
+                                    },
+
+                                    "user_address_zipcode": {
+                                        "description": "User address zipcode, required if user_wants_to_register_address is true",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "12345678",
+                                        "minLength": 8,
+                                        "maxLength": 8,
+                                        "pattern": "\\d{8}"
+                                    },
+
+                                    "user_address_country": {
+                                        "description": "User address country, required if user_wants_to_register_address is true",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "US",
+                                        "minLength": 2,
+                                        "maxLength": 2,
+                                        "pattern": "\\D{2}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+
+                    "201": {
+                        "description": "Client (Company, User) registered successfully",
+                        "headers": {
+                            "Set-Cookie": {
+                                "description": "User refresh token",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "refresh_token=HUSy4zYcxUalIejfvE7s1ZuTLrNIsU1pr9Xucf4ouaMAp4eKSRSceHmT0AFli9Vm; expires=Wed, 12 Feb 2025 00:16:13 GMT; Max-Age=604800; path=/; domain=1; secure; httponly; samesite=lax"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "1|j5uIgnf39o3V7yiSBg97QgHYf0zXEuI1O42nw8mcIN6h4DSpJzu4sr8NKeTwwgkB"
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "400": {
+                        "description": "User has sent a bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request"
+                                        },
+
+                                        "errors": {
+                                            "type": "object",
+                                            "properties": {
+
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "user_email is a required field"
+                                                }
+
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "500": {
+                        "description": "An internal server error has occurred",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        },
+
+        "/login":{
+            "post": {
+                "summary": "Authenticate an User",
+                "tags": ["Account"],
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+
+                                    "email": {
+                                        "description": "User email",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "markcarter@example.com",
+                                        "maxLength": 255,
+                                        "pattern": "[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+"
+                                    },
+
+                                    "password": {
+                                        "description": "User password",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "password",
+                                        "minLength": 8,
+                                        "maxLength": 255
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+
+                    "201": {
+                        "description": "User authenticated successfully",
+                        "headers": {
+                            "Set-Cookie": {
+                                "description": "User refresh token",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "refresh_token=HUSy4zYcxUalIejfvE7s1ZuTLrNIsU1pr9Xucf4ouaMAp4eKSRSceHmT0AFli9Vm; expires=Wed, 12 Feb 2025 00:16:13 GMT; Max-Age=604800; path=/; domain=1; secure; httponly; samesite=lax"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "1|j5uIgnf39o3V7yiSBg97QgHYf0zXEuI1O42nw8mcIN6h4DSpJzu4sr8NKeTwwgkB"
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "400": {
+                        "description": "User has sent a bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request"
+                                        },
+
+                                        "errors": {
+                                            "type": "object",
+                                            "properties": {
+                                                "credentials": {
+                                                    "type": "string",
+                                                    "example": "Incorrect email or password"
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "500": {
+                        "description": "An internal server error has occurred",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        },
+
+        "/refresh-token":{
+            "post": {
+                "summary": "Revalidate the user access token",
+                "tags": ["Account"],
+                "operationId": "refreshToken",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+
+                                    "refresh_token": {
+                                        "description": "User refresh token",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "HUSy4zYcxUalIejfvE7s1ZuTLrNIsU1pr9Xucf4ouaMAp4eKSRSceHmT0AFli9Vm",
+                                        "minLength": 64,
+                                        "maxLength": 64,
+                                        "pattern": "\\D{64}"
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+
+                    "200": {
+                        "description": "Token revalidated successfully",
+                        "headers": {
+                            "Set-Cookie": {
+                                "description": "User refresh token",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "refresh_token=HUSy4zYcxUalIejfvE7s1ZuTLrNIsU1pr9Xucf4ouaMAp4eKSRSceHmT0AFli9Vm; expires=Wed, 12 Feb 2025 00:16:13 GMT; Max-Age=604800; path=/; domain=1; secure; httponly; samesite=lax"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "1|j5uIgnf39o3V7yiSBg97QgHYf0zXEuI1O42nw8mcIN6h4DSpJzu4sr8NKeTwwgkB"
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "400": {
+                        "description": "User has sent a bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request"
+                                        },
+
+                                        "errors": {
+                                            "type": "object",
+                                            "properties": {
+                                                "refresh_token": {
+                                                    "type": "string",
+                                                    "example": "refresh_token is a required field"
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "401": {
+                        "description": "User has sent a invalid or expired token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+
+                                        "errors": {
+                                            "type": "object",
+                                            "properties": {
+                                                "refresh_token": {
+                                                    "type": "string",
+                                                    "example": "Invalid or expired refresh token"
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "500": {
+                        "description": "An internal server error has occurred",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        },
+
+        "/logout":{
+            "post": {
+                "summary": "Delete user current access and refresh token",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "description": "User access token",
+                        "in": "header",
+                        "schema": {
+                            "type": "string",
+                            "example": "1|j5uIgnf39o3V7yiSBg97QgHYf0zXEuI1O42nw8mcIN6h4DSpJzu4sr8NKeTwwgkB"
+                        }
+                    }
+                ],
+                "operationId": "logout",
+                "responses": {
+
+                    "200": {
+                        "description": "Token revalidated successfully",
+                        "headers": {
+                            "Set-Cookie": {
+                                "description": "User refresh token",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "refresh_token=HUSy4zYcxUalIejfvE7s1ZuTLrNIsU1pr9Xucf4ouaMAp4eKSRSceHmT0AFli9Vm; expires=Wed, 12 Feb 2025 00:16:13 GMT; Max-Age=604800; path=/; domain=1; secure; httponly; samesite=lax"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "1|j5uIgnf39o3V7yiSBg97QgHYf0zXEuI1O42nw8mcIN6h4DSpJzu4sr8NKeTwwgkB"
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "400": {
+                        "description": "User has sent a bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bad Request"
+                                        },
+
+                                        "errors": {
+                                            "type": "object",
+                                            "properties": {
+                                                "refresh_token": {
+                                                    "type": "string",
+                                                    "example": "refresh_token is a required field"
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "401": {
+                        "description": "User has sent a invalid or expired token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+
+                                        "errors": {
+                                            "type": "object",
+                                            "properties": {
+                                                "refresh_token": {
+                                                    "type": "string",
+                                                    "example": "Invalid or expired refresh token"
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "500": {
+                        "description": "An internal server error has occurred",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+
+            "InternalServerErrorResponse": {
+                "type": "object",
+                "properties": {
+
+                    "success": {
+                        "type": "boolean",
+                        "example": false
+                    },
+
+                    "message": {
+                        "type": "string",
+                        "example": "Internal Server Error"
+                    }
+
+                }
+            },
+
+            "ErrorMessage": {
+                "type": "string",
+                "example": "user_email is a required field"
+            },
+
+            "IncorrectCredentialsMessage": {
+                "type": "string",
+                "example": "Incorrect email or password"
+            }
+        }
+    }
+}
