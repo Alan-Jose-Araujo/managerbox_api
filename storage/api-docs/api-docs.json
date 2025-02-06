@@ -41,7 +41,7 @@
                                         "example": "Weimann e Cremin LTDA",
                                         "minLength": 4,
                                         "maxLength": 255,
-                                        "pattern": "[\\p{L}0-9&.,'()\\-\\s]+"
+                                        "pattern": "[\\p{L}0-9&.,'’\\-\\s]+"
                                     },
 
                                     "company_email": {
@@ -59,7 +59,7 @@
                                         "type": "string",
                                         "example": "12345678901234",
                                         "minLength": 14,
-                                        "maxLength": 255,
+                                        "maxLength": 14,
                                         "pattern": "\\d{14}"
                                     },
 
@@ -117,6 +117,15 @@
                                         "maxLength": 255
                                     },
 
+                                    "user_password_confirmation": {
+                                        "description": "User password confirmation field, it must have the same user_password value",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "password",
+                                        "minLength": 8,
+                                        "maxLength": 255
+                                    },
+
                                     "user_user_cpf": {
                                         "description": "User cpf number",
                                         "required": true,
@@ -142,8 +151,8 @@
                                         "required": true,
                                         "type": "string",
                                         "example": "Weimann Inlet",
-                                        "minLength": 9,
-                                        "maxLength": 9
+                                        "minLength": 3,
+                                        "maxLength": 255
                                     },
 
                                     "company_address_building_number": {
@@ -152,7 +161,8 @@
                                         "type": "string",
                                         "example": "123",
                                         "minLength": 2,
-                                        "maxLength": 5
+                                        "maxLength": 5,
+                                        "pattern": "\\d+[A-Za-zºª\\-\\/\\s]*"
                                     },
 
                                     "company_address_complement": {
@@ -160,7 +170,7 @@
                                         "required": false,
                                         "type": "string",
                                         "example": "Nearby café",
-                                        "minLength": 3,
+                                        "minLength": 5,
                                         "maxLength": 500
                                     },
 
@@ -169,8 +179,8 @@
                                         "required": true,
                                         "type": "string",
                                         "example": "Grove Street",
-                                        "minLength": 3,
-                                        "maxLength": 500
+                                        "minLength": 4,
+                                        "maxLength": 255
                                     },
 
                                     "company_address_city": {
@@ -179,7 +189,8 @@
                                         "type": "string",
                                         "example": "East Crawford",
                                         "minLength": 3,
-                                        "maxLength": 255
+                                        "maxLength": 255,
+                                        "pattern": "\\D"
                                     },
 
                                     "company_address_state": {
@@ -212,8 +223,8 @@
                                         "pattern": "\\D{2}"
                                     },
 
-                                    "user_wants_to_register_address": {
-                                        "description": "User wants to register address",
+                                    "user_has_the_same_address_as_the_company": {
+                                        "description": "If the user has the same company address must check it",
                                         "required": false,
                                         "type": "boolean",
                                         "default": false
@@ -224,48 +235,50 @@
                                         "required": false,
                                         "type": "string",
                                         "example": "Weimann Inlet",
-                                        "minLength": 9,
-                                        "maxLength": 9
-                                    },
-
-                                    "user_address_building_number": {
-                                        "description": "User address building, required if user_wants_to_register_address is true number",
-                                        "required": false,
-                                        "type": "string",
-                                        "example": "123",
-                                        "minLength": 2,
-                                        "maxLength": 5
-                                    },
-
-                                    "user_address_complement": {
-                                        "description": "User address complement, required if user_wants_to_register_address is true",
-                                        "required": false,
-                                        "type": "string",
-                                        "example": "Nearby café",
-                                        "minLength": 3,
-                                        "maxLength": 500
-                                    },
-
-                                    "user_address_neighborhood": {
-                                        "description": "User address neighborhood, required if user_wants_to_register_address is true",
-                                        "required": false,
-                                        "type": "string",
-                                        "example": "Grove Street",
-                                        "minLength": 3,
-                                        "maxLength": 500
-                                    },
-
-                                    "user_address_city": {
-                                        "description": "User address city, required if user_wants_to_register_address is true",
-                                        "required": false,
-                                        "type": "string",
-                                        "example": "East Crawford",
                                         "minLength": 3,
                                         "maxLength": 255
                                     },
 
+                                    "user_address_building_number": {
+                                        "description": "User address building number, required if user_has_the_same_address_as_the_company is false",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "123",
+                                        "minLength": 2,
+                                        "maxLength": 5,
+                                        "pattern": "\\d+[A-Za-zºª\\-\\/\\s]*"
+                                    },
+
+                                    "user_address_complement": {
+                                        "description": "User address complement, required if user_has_the_same_address_as_the_company is false",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "Nearby café",
+                                        "minLength": 5,
+                                        "maxLength": 500
+                                    },
+
+                                    "user_address_neighborhood": {
+                                        "description": "User address neighborhood, required if user_has_the_same_address_as_the_company is false",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "Grove Street",
+                                        "minLength": 4,
+                                        "maxLength": 255
+                                    },
+
+                                    "user_address_city": {
+                                        "description": "User address city, required if user_has_the_same_address_as_the_company is false",
+                                        "required": false,
+                                        "type": "string",
+                                        "example": "East Crawford",
+                                        "minLength": 3,
+                                        "maxLength": 255,
+                                        "pattern": "\\D"
+                                    },
+
                                     "user_address_state": {
-                                        "description": "User address state, required if user_wants_to_register_address is true",
+                                        "description": "User address state, required if user_has_the_same_address_as_the_company is false",
                                         "required": false,
                                         "type": "string",
                                         "example": "GA",
@@ -275,7 +288,7 @@
                                     },
 
                                     "user_address_zipcode": {
-                                        "description": "User address zipcode, required if user_wants_to_register_address is true",
+                                        "description": "User address zipcode, required if user_has_the_same_address_as_the_company is false",
                                         "required": false,
                                         "type": "string",
                                         "example": "12345678",
@@ -285,7 +298,7 @@
                                     },
 
                                     "user_address_country": {
-                                        "description": "User address country, required if user_wants_to_register_address is true",
+                                        "description": "User address country, required if user_has_the_same_address_as_the_company is false",
                                         "required": false,
                                         "type": "string",
                                         "example": "US",

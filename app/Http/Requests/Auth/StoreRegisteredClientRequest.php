@@ -49,7 +49,7 @@ class StoreRegisteredClientRequest extends FormRequest
             'company_address_street' => ['required', 'string', 'min:3', 'max:255'],
             'company_address_building_number' => ['required', 'string', 'min:2', 'max:5', "regex:/^\d+[A-Za-zºª\-\/\s]*$/"],
             'company_address_complement' => ['nullable', 'string', 'min:5', 'max:500'],
-            'company_address_neighborhood' => ['required', 'string', 'min:3', 'max:255'],
+            'company_address_neighborhood' => ['required', 'string', 'min:4', 'max:255'],
             'company_address_city' => ['required', 'string', 'min:3', 'max:255', "regex:/\D/"],
             'company_address_state' => ['required', 'string', 'size:2', "regex:/\D/"],
             'company_address_zipcode' => ['required', 'string', 'size:8', "regex:/\d/"],
