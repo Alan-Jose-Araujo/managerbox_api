@@ -33,7 +33,7 @@ class RegisteredClientController extends Controller
                return preg_match_all('/^company_address_\D+$/', $key);
            }, ARRAY_FILTER_USE_KEY);
 
-           $userWantsToRegisterAddress = $request->boolean('user_wants_to_register_address');
+           $userHasTheSameAddressAsTheCompany = $request->boolean('user_has_the_same_address_as_the_company');
 
            $userAddressData = array_filter($request->all(), function($key) {
                return preg_match_all('/^user_address_\D+$/', $key);
@@ -75,7 +75,7 @@ class RegisteredClientController extends Controller
                'addressable_id' => $company->id,
            ]);
 
-           if($userWantsToRegisterAddress) {
+           if($userHasTheSameAddressAsTheCompany) {
                Address::create([
                    'street' => $userAddressData['user_address_street'],
                    'building_number' => $userAddressData['user_address_building_number'],
