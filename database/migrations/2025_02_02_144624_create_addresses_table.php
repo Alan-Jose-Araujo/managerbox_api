@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('street', 255);
             $table->char('building_number', 5);
             $table->text('complement')->nullable();
+            $table->string('neighborhood');
             $table->string('city', 255);
             $table->char('state', 2);
             $table->char('zipcode', 8);
