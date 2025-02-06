@@ -24,7 +24,7 @@ class CompanyFactory extends Factory
             'email_verified_at' => now(),
             'cnpj' => $companyFaker->cnpj(false),
             'state_registration' => (string) fake()->unique()->randomNumber(9),
-            'foundation_date' => fake()->randomElement([null, fake()->date()]),
+            'foundation_date' => fake()->randomElement([null, fake()->date('Y-m-d')]),
             'landline' => (string) fake()->unique()->randomNumber(8),
             'is_active' => fake()->boolean(),
             'timezone' => fake()->timezone('BR'),

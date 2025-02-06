@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -36,7 +35,7 @@ class UserFactory extends Factory
             'phone_number' => preg_replace('/\D/', '', fake()->phoneNumber()),
             'birth_date' => fake()->randomElement([fake()->date(), null]),
             'last_activity' => fake()->randomElement([fake()->time('Y-m-d H:i:s'), null]),
-            'is_active' => fake()->randomElement([true, false]),
+            'is_active' => fake()->boolean(80),
             'company_id' => Company::factory(),
         ];
     }

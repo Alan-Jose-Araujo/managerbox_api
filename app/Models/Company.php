@@ -31,7 +31,6 @@ class Company extends Model
 
     protected $casts = [
         'logo_image_path' => 'string',
-        'foundation_date' => 'date',
         'is_active' => 'boolean',
     ];
 
