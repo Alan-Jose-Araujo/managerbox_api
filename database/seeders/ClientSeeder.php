@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Address;
 use App\Models\Company;
+use App\Models\Metier;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,7 +16,9 @@ class ClientSeeder extends Seeder
      */
     public function run(): void
     {
-        Company::factory(20)->create()
+        Company::factory(20)->create([
+            'metier_id' => Metier::all()->random()->first()->id,
+        ])
         ->each(function ($company) {
 
             Address::factory()->create([
