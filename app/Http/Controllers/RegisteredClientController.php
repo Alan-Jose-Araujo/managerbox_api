@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Auth\StoreRegisteredClientRequest;
 use App\Models\Address;
 use App\Models\Company;
+use App\Models\Metier;
 use App\Models\PersonalRefreshToken;
 use App\Models\User;
 use App\Traits\Http\SendJsonResponses;
@@ -40,6 +41,8 @@ class RegisteredClientController extends Controller
            }, ARRAY_FILTER_USE_KEY);
 
            DB::beginTransaction();
+
+           $metierId = Metier::where('cnae_code', '=', $request->input('cnae_code'))->first();
 
            $company = Company::create([
                'fantasy_name' => $companyData['company_fantasy_name'],

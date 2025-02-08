@@ -89,6 +89,16 @@
                                         "pattern": "\\d{8}"
                                     },
 
+                                    "cnae_code": {
+                                        "description": "Company branch of activity, the codes json file can be found at: https://trello.com/c/rBMeVIiK/13-obter-lista-de-atividades-e-c%C3%B3digos-cnae",
+                                        "required": true,
+                                        "type": "string",
+                                        "example": "161003",
+                                        "minLength": 6,
+                                        "maxLength": 7,
+                                        "pattern": "\\d{6,7}"
+                                    },
+
                                     "user_name": {
                                         "description": "User name",
                                         "required": true,
@@ -224,7 +234,7 @@
                                     },
 
                                     "user_has_the_same_address_as_the_company": {
-                                        "description": "If the user has the same company address must check it",
+                                        "description": "If the user has the same company address must check it. User address fields should only be displayed if this field is NOT checked",
                                         "required": false,
                                         "type": "boolean",
                                         "default": false

@@ -36,6 +36,7 @@ class StoreRegisteredClientRequest extends FormRequest
             'company_state_registration' => ['required', 'string', 'size:9', 'unique:companies,state_registration', "regex:/\d/"],
             'company_foundation_date' => ['nullable', 'string', 'date_format:Y-m-d'],
             'company_landline' => ['nullable', 'string', 'size:8', "regex:/\d/"],
+            'cnae_code' => ['required', 'string', 'min:6', 'max:7', 'exists:metiers,cnae_code', "regex:/\d/"],
 
             // User data.
             'user_name' => ['required', 'string', 'min:3', 'max:255', "regex:/^(?!.*\s{2})[A-Za-zÀ-ÖØ-öø-ÿ'’-]+(?:\s[A-Za-zÀ-ÖØ-öø-ÿ'’-]+)*$/i"],
@@ -49,7 +50,7 @@ class StoreRegisteredClientRequest extends FormRequest
             'company_address_street' => ['required', 'string', 'min:3', 'max:255'],
             'company_address_building_number' => ['required', 'string', 'min:2', 'max:5', "regex:/^\d+[A-Za-zºª\-\/\s]*$/"],
             'company_address_complement' => ['nullable', 'string', 'min:5', 'max:500'],
-            'company_address_neighborhood' => ['required', 'string', 'min:4', 'max:255'],
+            'company_address_neighborhood' => ['required', 'string', 'min:3', 'max:255'],
             'company_address_city' => ['required', 'string', 'min:3', 'max:255', "regex:/\D/"],
             'company_address_state' => ['required', 'string', 'size:2', "regex:/\D/"],
             'company_address_zipcode' => ['required', 'string', 'size:8', "regex:/\d/"],
@@ -61,7 +62,7 @@ class StoreRegisteredClientRequest extends FormRequest
             'user_address_street' => ['prohibited_if:user_has_the_same_address_as_the_company,true', 'string', 'min:3', 'max:255'],
             'user_address_building_number' => ['prohibited_if:user_has_the_same_address_as_the_company,true', 'string', 'min:2', 'max:5', "regex:/^\d+[A-Za-zºª\-\/\s]*$/"],
             'user_address_complement' => ['nullable', 'string', 'min:5', 'max:500'],
-            'user_address_neighborhood' => ['prohibited_if:user_has_the_same_address_as_the_company,true', 'string', 'min:4', 'max:255'],
+            'user_address_neighborhood' => ['prohibited_if:user_has_the_same_address_as_the_company,true', 'string', 'min:3', 'max:255'],
             'user_address_city' => ['prohibited_if:user_has_the_same_address_as_the_company,true', 'string', 'min:3', 'max:255', "regex:/\D/"],
             'user_address_state' => ['prohibited_if:user_has_the_same_address_as_the_company,true', 'string', 'size:2', "regex:/\D/"],
             'user_address_zipcode' => ['prohibited_if:user_has_the_same_address_as_the_company,true', 'string', 'size:8', "regex:/\d/"],
