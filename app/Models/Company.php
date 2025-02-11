@@ -27,6 +27,7 @@ class Company extends Model
         'timezone',
         'currency_code',
         'currency_decimal_places',
+        'metier_id',
     ];
 
     protected $casts = [

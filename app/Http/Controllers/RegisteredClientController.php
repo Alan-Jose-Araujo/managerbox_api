@@ -42,7 +42,7 @@ class RegisteredClientController extends Controller
 
            DB::beginTransaction();
 
-           $metierId = Metier::where('cnae_code', '=', $request->input('cnae_code'))->first();
+           $metierId = Metier::where('cnae_code', '=', $request->input('cnae_code'))->first()->id;
 
            $company = Company::create([
                'fantasy_name' => $companyData['company_fantasy_name'],
@@ -52,6 +52,7 @@ class RegisteredClientController extends Controller
                'state_registration' => $companyData['company_state_registration'],
                'foundation_date' => $companyData['company_foundation_date'],
                'company_landline' => $companyData['company_landline'],
+               'metier_id' => $metierId,
            ]);
 
            $user = User::create([

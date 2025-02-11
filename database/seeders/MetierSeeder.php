@@ -14,8 +14,13 @@ class MetierSeeder extends Seeder
      */
     public function run(): void
     {
-        $jsonedCnaeCodes = json_decode(Storage::disk('local')->get('cnae_codes.json'), true);
-        foreach ($jsonedCnaeCodes as $code => $name) {
+        $getParsedMetier = function() {
+            $jsonedCnaeCodes = json_decode(Storage::disk('local')->get('cnae_codes.json'), true);
+            foreach($jsonedCnaeCodes as $code => $name) {
+                yield $code => $name;
+            }
+        };
+        foreach ($getParsedMetier() as $code => $name) {
             Metier::create([
                 'name' => $name,
                 'cnae_code' => $code,

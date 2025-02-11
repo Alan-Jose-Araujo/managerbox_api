@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Address;
 use App\Models\Company;
 use App\Models\User;
+use Database\Seeders\MetierSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
@@ -19,6 +20,8 @@ class RegisteredClientTest extends TestCase
      */
     public function test_client_can_be_registered_successfully(): void
     {
+        $this->seed(MetierSeeder::class);
+
         $companyCnpj = '12345678901234';
         $userEmail = 'myuser@example.com';
         $requestBody = [
@@ -29,6 +32,7 @@ class RegisteredClientTest extends TestCase
             'company_state_registration' => '123456789',
             'company_foundation_date' => '2025-01-01',
             'company_landline' => '12345678',
+            'cnae_code' => '161003',
             'user_name' => 'My username',
             'user_email' => $userEmail,
             'user_password' => 'password',
