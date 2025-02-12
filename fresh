@@ -1,0 +1,34 @@
+
+   INFO  Running migrations.  
+
+  2025_02_12_154255_create_item_in_stocks_table ...................... 2s DONE
+
+
+   INFO  Seeding database.  
+
+  Database\Seeders\MetierSeeder ...................................... RUNNING  
+
+   Illuminate\Database\UniqueConstraintViolationException 
+
+  SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '161003' for key 'metiers.metiers_cnae_code_unique' (Connection: mysql, SQL: insert into `metiers` (`name`, `cnae_code`, `updated_at`, `created_at`) values (Serviço de preparação de terreno, cultivo e colheita, 161003, 2025-02-12 16:48:41, 2025-02-12 16:48:41))
+
+  at vendor/laravel/framework/src/Illuminate/Database/Connection.php:820
+    816▕         // message to include the bindings with SQL, which will make this exception a
+    817▕         // lot more helpful to the developer instead of just the database's errors.
+    818▕         catch (Exception $e) {
+    819▕             if ($this->isUniqueConstraintError($e)) {
+  ➜ 820▕                 throw new UniqueConstraintViolationException(
+    821▕                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    822▕                 );
+    823▕             }
+    824▕
+
+      [2m+17 vendor frames [22m
+
+  18  database/seeders/MetierSeeder.php:24
+      Illuminate\Database\Eloquent\Model::__callStatic()
+      [2m+8 vendor frames [22m
+
+  27  database/seeders/DatabaseSeeder.php:17
+      Illuminate\Database\Seeder::call()
+
