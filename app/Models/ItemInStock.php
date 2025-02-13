@@ -28,12 +28,12 @@ class ItemInStock extends Model
         'company_id'
     ];
 
-    public function company()
+    public function getRelatedCompany()
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
 
-    public function creator()
+    public function getCreatorUser()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

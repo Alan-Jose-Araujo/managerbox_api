@@ -35,12 +35,12 @@ class Company extends Model
         'is_active' => 'boolean',
     ];
 
-    public function employees()
+    public function getRelatedUsers()
     {
         return $this->hasMany(User::class, 'company_id');
     }
 
-    public function address()
+    public function getRelatedAddress()
     {
         return $this->morphOne(Address::class, 'addressable');
     }

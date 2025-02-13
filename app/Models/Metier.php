@@ -16,7 +16,7 @@ class Metier extends Model
         'cnae_code'
     ];
 
-    public function companies()
+    public function getRelatedCompanies()
     {
         return $this->hasMany(Company::class, 'metier_id');
     }

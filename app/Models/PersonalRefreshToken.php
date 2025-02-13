@@ -24,7 +24,7 @@ class PersonalRefreshToken extends Model
         ]);
     }
 
-    public function user()
+    public function getRelatedUser()
     {
         return $this->belongsTo(User::class);
     }
