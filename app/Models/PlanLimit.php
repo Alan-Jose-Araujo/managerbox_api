@@ -9,4 +9,10 @@ class PlanLimit extends Model
 {
     /** @use HasFactory<\Database\Factories\PlanLimitFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'feature',
+        'limit',
+        'plan_id',
+    ];
 }
