@@ -31,7 +31,7 @@ class CompanyFactory extends Factory
             'timezone' => fake()->timezone('BR'),
             'currency_code' => fake()->currencyCode(),
             'currency_decimal_places' => 2,
-            'metier_id' => Metier::factory(),
+            'metier_id' => Metier::all()->random()->id,
         ];
     }
 }
