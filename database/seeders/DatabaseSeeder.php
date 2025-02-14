@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             MetierSeeder::class,
             PlanSeeder::class,
             ClientSeeder::class,
+            ItemInStockSeeder::class,
         ]);
     }
 }

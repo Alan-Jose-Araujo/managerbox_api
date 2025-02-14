@@ -23,14 +23,14 @@ class ItemInStockFactory extends Factory
             'name' => fake()->word(),
             'description' => fake()->text(),
             'unity_type' => 'unity',
-            'current_quantity' => fake()->random_int(0, 100),
+            'current_quantity' => fake()->randomNumber(3),
             'maximum_quantity' => fake()->randomFloat(2, 0, 100),
             'cost_price' => fake()->randomFloat(2, 0, 1000),
             'sell_price' => fake()->randomFloat(2, 0, 1000),
             'picture' => fake()->filePath(),
             'location' => fake()->text(),
             'is_active' => fake()->boolean(),
-            'company_id' => Company::factory(),
+            'company_id' => Company::all()->random()->id,
         ];
     }
 }
