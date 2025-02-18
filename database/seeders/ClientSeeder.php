@@ -18,6 +18,10 @@ class ClientSeeder extends Seeder
     {
         Company::factory(20)->create()->each(function (Company $company) {
 
+            User::factory()->create()->each(function (User $user) {
+                $user->assignRole('global_admin');
+            });
+
             Subscription::factory()->create([
                 'company_id' => $company->id,
             ]);
@@ -30,6 +34,17 @@ class ClientSeeder extends Seeder
             User::factory()->create([
                 'company_id' => $company->id,
             ])->each(function (User $user) {
+                $user->assignRole('company_admin');
+                Address::factory()->create([
+                    'addressable_type' => User::class,
+                    'addressable_id' => $user->id,
+                ]);
+            });
+
+            User::factory(2)->create([
+                'company_id' => $company->id,
+            ])->each(function (User $user) {
+                $user->assignRole('stock_manager');
                 Address::factory()->create([
                     'addressable_type' => User::class,
                     'addressable_id' => $user->id,
@@ -39,6 +54,7 @@ class ClientSeeder extends Seeder
             User::factory(10)->create([
                 'company_id' => $company->id,
             ])->each(function (User $user) {
+                $user->assignRole('stock_operator');
                 Address::factory()->create([
                     'addressable_type' => User::class,
                     'addressable_id' => $user->id,
