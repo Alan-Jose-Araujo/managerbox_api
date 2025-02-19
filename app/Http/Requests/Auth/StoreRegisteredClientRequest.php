@@ -38,6 +38,8 @@ class StoreRegisteredClientRequest extends FormRequest
             'company_landline' => ['nullable', 'string', 'size:8', "regex:/\d/"],
             'cnae_code' => ['required', 'string', 'min:6', 'max:7', 'exists:metiers,cnae_code', "regex:/\d/"],
 
+            //TODO: Add plan id logic here.
+
             // User data.
             'user_name' => ['required', 'string', 'min:3', 'max:255', "regex:/^(?!.*\s{2})[A-Za-zÀ-ÖØ-öø-ÿ'’-]+(?:\s[A-Za-zÀ-ÖØ-öø-ÿ'’-]+)*$/i"],
             'user_email' => ['required', 'string', 'max:255', 'email', 'unique:users,email'],
