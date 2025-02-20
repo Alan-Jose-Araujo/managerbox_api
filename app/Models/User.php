@@ -61,17 +61,12 @@ class User extends Authenticatable
         ];
     }
 
-    public function getRefreshToken()
-    {
-        return $this->hasOne(PersonalRefreshToken::class, 'user_id');
-    }
-
-    public function getRelatedcompany()
+    public function relatedCompany()
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
 
-    public function getRelatedaddress()
+    public function relatedAddress()
     {
         return $this->morphOne(Address::class, 'addressable');
     }

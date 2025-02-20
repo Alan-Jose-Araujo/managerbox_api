@@ -15,6 +15,10 @@ class PersonalRefreshToken extends Model
         'expires_at'
     ];
 
+    protected $casts = [
+        'expires_at' => 'datetime',
+    ];
+
     public static function generate($user)
     {
         return self::create([
@@ -24,12 +28,8 @@ class PersonalRefreshToken extends Model
         ]);
     }
 
-    public function getRelatedUser()
+    public function relatedUser()
     {
         return $this->belongsTo(User::class);
     }
-
-    protected $casts = [
-        'expires_at' => 'datetime',
-    ];
 }

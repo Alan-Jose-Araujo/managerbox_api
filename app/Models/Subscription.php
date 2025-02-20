@@ -27,12 +27,12 @@ class Subscription extends Model
         return Carbon::parse($this->end_date)->isPast();
     }
 
-    public function getRelatedCompany()
+    public function relatedCompany()
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
 
-    public function getRelatedPlan()
+    public function relatedPlan()
     {
         return $this->belongsTo(Plan::class, 'plan_id');
     }
