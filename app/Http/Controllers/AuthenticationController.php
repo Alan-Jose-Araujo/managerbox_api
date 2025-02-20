@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 
 class AuthenticationController extends Controller
 {
@@ -22,63 +23,15 @@ class AuthenticationController extends Controller
             $credentials = $request->only('email', 'password');
 
             if(!Auth::attempt($credentials)) {
-                return $this->sendBadRequestResponse(
-                    'Bad Request',
-                    ['credentials' => 'Incorrect email or password']
-                );
+                return back()->withErrors(['credentials' => 'Incorrect email or password']);
             }
 
-            $user = Auth::user();
-
-            $accessToken = $user->createToken(
-                'access_token',
-                expiresAt: now()->addMinutes(config('sanctum.expiration'))
-            )->plainTextToken;
-
-            $refreshToken = PersonalRefreshToken::generate($user);
-
-            return $this->sendResponse([
-                'success' => true,
-                'access_token' => $accessToken,
-            ])->cookie('refresh_token', $refreshToken->token, 60 * 24 * 7, null, true, true);
+            return redirect()->route('dashboard');
         }
         catch(\Exception $exception)
         {
             Log::error($exception);
-            return $this->sendErrorResponse();
-        }
-    }
-
-    public function refreshToken(RefreshAccessTokenRequest $request)
-    {
-        try
-        {
-            $refreshToken = PersonalRefreshToken::where('token', $request->input('refresh_token'))->first();
-
-            if(is_null($refreshToken) || $refreshToken->expires_at->isPast()) {
-                return $this->sendResponse([
-                    'success' => false,
-                    'errors' => [
-                        'refresh_token' => 'Invalid or expired refresh token'
-                    ]
-                ], 401);
-            }
-
-            $user = $refreshToken->user;
-
-            $refreshToken->delete();
-
-            $newRefreshToken = PersonalRefreshToken::generate($user);
-            $accessToken = $user->createToken('access_token')->plainTextToken;
-
-            return $this->sendResponse([
-                'success' => true,
-                'access_token' => $accessToken,
-            ])->cookie('refresh_token', $newRefreshToken->token, 60 * 24 * 7, null, true, true);
-        }
-        catch(\Exception $exception)
-        {
-            Log::error($exception);
+            //TODO: Adicionar redirecionamento de erro
             return $this->sendErrorResponse();
         }
     }
@@ -87,16 +40,15 @@ class AuthenticationController extends Controller
     {
         try
         {
-            $user = $request->user();
-            $user->refreshToken->delete();
-            $user->tokens()->delete();
-            return $this->sendResponse([
-                'success' => true,
-            ]);
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect('/');
         }
         catch(\Exception $exception)
         {
             Log::error($exception);
+            //TODO: Adicionar redirecionamento de erro
             return $this->sendErrorResponse();
         }
     }

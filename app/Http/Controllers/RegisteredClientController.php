@@ -11,8 +11,10 @@ use App\Models\PersonalRefreshToken;
 use App\Models\User;
 use App\Traits\Http\SendJsonResponses;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 
 class RegisteredClientController extends Controller
 {
@@ -101,20 +103,17 @@ class RegisteredClientController extends Controller
                $userAddress->save();
            }
 
-           $accessToken = $user->createToken('access_token')->plainTextToken;
-           $refreshToken = PersonalRefreshToken::generate($user);
-
            DB::commit();
 
-           return response()->json([
-               'success' => true,
-               'access_token' => $accessToken,
-           ], Response::HTTP_CREATED)->cookie('refresh_token', $refreshToken->token, 60 * 24 * 7, '/', null, true, true);
+           Auth::login($user);
+
+           return redirect()->route('dashboard');
        }
        catch (\Exception $exception)
        {
            DB::rollBack();
            Log::error($exception);
+           //TODO: Adicionar redirecionamento de erro
            return $this->sendErrorResponse();
        }
    }

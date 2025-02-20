@@ -74,10 +74,7 @@ class StoreRegisteredClientRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException($this->sendBadRequestResponse(
-            'Bad Request',
-            $validator->errors()->toArray(),
-        ));
+        return back()->withErrors($validator->errors()->toArray())->withInput();
     }
 
     public function messages()
