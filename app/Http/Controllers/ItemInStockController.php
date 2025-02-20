@@ -3,16 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\ItemInStock;
+use App\Traits\Http\SendJsonResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 
 class ItemInStockController extends Controller
 {
+    use SendJsonResponses;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        try
+        {
+            $itemsInStock = ItemInStock::all();
+
+//            return View::make('')->with('itemsInStock', $itemsInStock)->render();
+        }
+        catch(\Exception $exception)
+        {
+            Log::error($exception);
+            return $this->sendErrorResponse();
+        }
     }
 
     /**
@@ -28,7 +43,15 @@ class ItemInStockController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try
+        {
+
+        }
+        catch(\Exception $exception)
+        {
+            Log::error($exception);
+            return $this->sendErrorResponse();
+        }
     }
 
     /**

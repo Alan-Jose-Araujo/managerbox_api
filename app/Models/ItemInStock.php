@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,15 @@ class ItemInStock extends Model
         'is_active',
         'company_id'
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('company', function (Builder $builder) {
+            if(auth()->check()) {
+                $builder->where('company_id', auth()->user()->company_id);
+            }
+        });
+    }
 
     public function relatedCompany()
     {
