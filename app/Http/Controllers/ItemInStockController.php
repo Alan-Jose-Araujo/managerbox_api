@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ItemInStock\StoreItemInStockRequest;
 use App\Models\ItemInStock;
 use App\Traits\Http\SendJsonResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
 class ItemInStockController extends Controller
@@ -41,11 +43,13 @@ class ItemInStockController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreItemInStockRequest $request)
     {
         try
         {
-
+            $request['company_id'] = Session::get('company_id');
+            $data = $request->all();
+            $itemInStock = ItemInStock::create($data);
         }
         catch(\Exception $exception)
         {

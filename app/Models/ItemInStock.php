@@ -36,6 +36,16 @@ class ItemInStock extends Model
                 $builder->where('company_id', auth()->user()->company_id);
             }
         });
+
+        static::created(function (ItemInStock $itemInStock) {
+            ActionLog::create([
+                'action' => 'created',
+                'loggable_actor_type' => User::class,
+                'loggable_actor_id' => auth()->user()->id,
+                'loggable_target_type' => ItemInStock::class,
+                'loggable_target_id' => $itemInStock->id,
+            ]);
+        });
     }
 
     public function relatedCompany()

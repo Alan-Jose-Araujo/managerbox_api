@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
 class AuthenticationController extends Controller
@@ -25,6 +26,11 @@ class AuthenticationController extends Controller
             if(!Auth::attempt($credentials)) {
                 return back()->withErrors(['credentials' => 'Incorrect email or password']);
             }
+
+            $request->session()->regenerate();
+            $request->session()->regenerateToken();
+
+            Session::put('company_id', $request->user()->company_id);
 
             return redirect()->route('dashboard');
         }
