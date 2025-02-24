@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('timezone', 150)->nullable(); // TODO: Remove nullable, its just for tests.
             $table->char('currency_code', 3)->nullable(); // TODO: Remove nullable, its just for tests.
             $table->integer('currency_decimal_places')->default(2);
+            $table->unsignedBigInteger('metier_id')->default(1)->change();
             $table->timestamps();
             $table->softDeletes();
         });

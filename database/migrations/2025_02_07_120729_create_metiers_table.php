@@ -18,8 +18,11 @@ return new class extends Migration
             $table->timestamps();
         });
 
+
+
         Schema::table('companies', function (Blueprint $table) {
             $table->foreignId('metier_id')->after('currency_decimal_places')
+            ->default(1) // Define o valor padrão como 1
             ->constrained('metiers', 'id')
             ->restrictOnDelete()->cascadeOnUpdate();
         });
@@ -30,9 +33,13 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Remover a chave estrangeira antes de excluir a tabela
         Schema::table('companies', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('companies_metier_id_foreign');
+            $table->dropForeign(['metier_id']);
+            $table->dropColumn('metier_id');
         });
+
+        // Excluir a tabela metiers
         Schema::dropIfExists('metiers');
     }
 };
