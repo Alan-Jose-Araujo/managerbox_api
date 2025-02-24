@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,13 +29,27 @@ class ItemInStock extends Model
         'company_id'
     ];
 
-    public function getRelatedCompany()
+    protected static function booted()
     {
-        return $this->belongsTo(Company::class, 'company_id');
+        static::addGlobalScope('company', function (Builder $builder) {
+            if(auth()->check()) {
+                $builder->where('company_id', auth()->user()->company_id);
+            }
+        });
+
+        static::created(function (ItemInStock $itemInStock) {
+            ActionLog::create([
+                'action' => 'created',
+                'loggable_actor_type' => User::class,
+                'loggable_actor_id' => auth()->user()->id,
+                'loggable_target_type' => ItemInStock::class,
+                'loggable_target_id' => $itemInStock->id,
+            ]);
+        });
     }
 
-    public function getCreatorUser()
+    public function relatedCompany()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Company::class, 'company_id');
     }
 }

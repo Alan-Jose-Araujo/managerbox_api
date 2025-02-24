@@ -12,7 +12,6 @@ Route::get('/', function () {
     return redirect('/welcome');
 });
 
-
 // Rotas para o Login
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -29,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
 
 Route::controller(\App\Http\Controllers\ItemInStockController::class)->group(function () {
     Route::get('/items-in-stock', 'index')->name('items-in-stock');
