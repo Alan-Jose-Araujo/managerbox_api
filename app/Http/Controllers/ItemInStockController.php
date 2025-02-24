@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemInStock\StoreItemInStockRequest;
+use App\Http\Requests\ItemInStock\UpdateItemInStockRequest;
 use App\Models\ItemInStock;
 use App\Traits\Http\SendJsonResponses;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class ItemInStockController extends Controller
      */
     public function create()
     {
-        //
+        //TODO: Retornar view de create.
     }
 
     /**
@@ -48,8 +49,13 @@ class ItemInStockController extends Controller
         try
         {
             $request['company_id'] = Session::get('company_id');
+            $request['unity_type'] = $request['unity_type'] ?? 'unity';
+            $request['current_quantity'] = $request['current_quantity'] ?? 0;
             $data = $request->all();
+            $imagePath = $request->file('image')?->store('ItemsInStock/images', 'public') ?? null;
+            $data['image'] = $imagePath;
             $itemInStock = ItemInStock::create($data);
+            //TODO: Redirecionar para outra rota.
         }
         catch(\Exception $exception)
         {
@@ -63,7 +69,7 @@ class ItemInStockController extends Controller
      */
     public function show(ItemInStock $itemInStock)
     {
-        //
+        //TODO: Retornar view de show.
     }
 
     /**
@@ -71,15 +77,29 @@ class ItemInStockController extends Controller
      */
     public function edit(ItemInStock $itemInStock)
     {
-        //
+        //TODO: Retornar view de edit.
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ItemInStock $itemInStock)
+    public function update(UpdateItemInStockRequest $request, ItemInStock $itemInStock)
     {
-        //
+        try
+        {
+            $request['unity_type'] = $request['unity_type'] ?? 'unity';
+            $request['current_quantity'] = $request['current_quantity'] ?? 0;
+            $data = $request->all();
+            $imagePath = $request->file('image')?->store('ItemsInStock/images', 'public') ?? null;
+            $data['image'] = $imagePath;
+            $itemInStock->update($data);
+            //TODO: Redirecionar para outra rota.
+        }
+        catch(\Exception $exception)
+        {
+            Log::error($exception);
+            return $this->sendErrorResponse();
+        }
     }
 
     /**
@@ -87,6 +107,15 @@ class ItemInStockController extends Controller
      */
     public function destroy(ItemInStock $itemInStock)
     {
-        //
+        try
+        {
+            $itemInStock->delete();
+            //TODO: Redirecionar para outra rota.
+        }
+        catch(\Exception $exception)
+        {
+            Log::error($exception);
+            return $this->sendErrorResponse();
+        }
     }
 }
