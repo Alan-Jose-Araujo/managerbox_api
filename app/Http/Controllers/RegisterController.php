@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Metier;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,8 @@ class RegisterController extends Controller
 {
     public function showRegisterForm()
     {
-        return view('register');
+        $metiers = Metier::all();
+        return view('register')->with('metiers', $metiers);
     }
 
     public function register(Request $request)
@@ -26,6 +28,7 @@ class RegisterController extends Controller
             'company_state_registration' => 'required|string|max:9',
             'company_foundation_date' => 'nullable|date',
             'company_landline' => 'nullable|string|max:8',
+            'company_cnae_code' => 'required|integer',
             'user_phone_number' => 'nullable|string|max:20', // Agora é opcional
 
             // Dados do usuário
@@ -45,6 +48,7 @@ class RegisterController extends Controller
             'state_registration' => $validatedData['company_state_registration'],
             'foundation_date' => $validatedData['company_foundation_date'] ?? null,
             'landline' => $validatedData['company_landline'],
+            'metier_id' => Metier::find($validatedData['company_cnae_code'])->id,
         ]);
 
         // Criando o usuário vinculado à empresa

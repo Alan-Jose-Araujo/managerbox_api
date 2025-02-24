@@ -34,6 +34,14 @@
                 <!-- Step 2: Dados da Empresa -->
                 <div id="step-2" class="step hidden">
                     <h3 class="font-semibold mb-4">Dados da Empresa</h3>
+
+                    <select required class="w-full border px-3 py-2 rounded mb-4" name="company_cnae_code">
+                        <option hidden selected>Área de atuação</option>
+                        @foreach($metiers as $metier)
+                            <option value="{{$metier->id}}">{{$metier->cnae_code}} - {{$metier->name}}</option>
+                        @endforeach
+                    </select>
+
                     <input type="text" name="company_name" placeholder="Nome da Empresa" class="w-full border px-3 py-2 rounded mb-2" required>
                     <input type="text" name="company_corporate_reason" placeholder="Razão Social" class="w-full border px-3 py-2 rounded mb-2" required>
                     <input type="email" name="company_email" placeholder="Email da Empresa" class="w-full border px-3 py-2 rounded mb-2" required>
