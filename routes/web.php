@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 // Página inicial redireciona para login
 Route::get('/', function () {
-    return redirect('/welcome');
+    return redirect('/login');
 });
 
 // Rotas para o Login
