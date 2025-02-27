@@ -6,6 +6,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemInStockController;
 
 // Página inicial redireciona para login
 Route::get('/', function () {
@@ -33,3 +34,20 @@ Route::middleware(['auth'])->group(function () {
 Route::controller(\App\Http\Controllers\ItemInStockController::class)->group(function () {
     Route::get('/items-in-stock', 'index')->name('items-in-stock');
 })->middleware('auth');
+
+Route::resource('items', ItemInStockController::class);
+Route::delete('/items/{id}', [ItemInStockController::class, 'destroy'])->name('items.destroy');
+
+//Route::get('/items/{itemInStock}/edit', [ItemInStockController::class, 'edit'])->name('items.edit');
+//Route::put('/items/{itemInStock}', [ItemInStockController::class, 'update'])->name('items.update');
+
+
+
+/*Route::resource('items', ItemInStockController::class)->names([
+    'store' => 'items.store',
+]);*/
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/items', [ItemInStockController::class, 'store']);
+});
