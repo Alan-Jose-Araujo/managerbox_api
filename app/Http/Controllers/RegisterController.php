@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class RegisterController extends Controller
 {
@@ -62,6 +63,8 @@ class RegisterController extends Controller
         ]);
 
         Auth::login($user);
+
+        Session::put('company_id', $user->company_id);
 
         return redirect('/dashboard');
     }

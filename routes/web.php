@@ -10,7 +10,7 @@ use App\Http\Controllers\ItemInStockController;
 
 // Página inicial redireciona para login
 Route::get('/', function () {
-    return redirect('/welcome');
+    return redirect('/login');
 });
 
 // Rotas para o Login

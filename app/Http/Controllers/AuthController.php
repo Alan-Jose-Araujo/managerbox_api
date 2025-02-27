@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -23,6 +24,8 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return redirect()->route('dashboard');
         }
+
+        Session::put('company_id', Auth::user()->company_id);
 
         return back()->withErrors(['email' => 'Credenciais inválidas.']);
     }
