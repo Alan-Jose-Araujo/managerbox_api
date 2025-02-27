@@ -38,8 +38,8 @@ Route::controller(\App\Http\Controllers\ItemInStockController::class)->group(fun
 Route::resource('items', ItemInStockController::class);
 Route::delete('/items/{id}', [ItemInStockController::class, 'destroy'])->name('items.destroy');
 
-//Route::get('/items/{itemInStock}/edit', [ItemInStockController::class, 'edit'])->name('items.edit');
-//Route::put('/items/{itemInStock}', [ItemInStockController::class, 'update'])->name('items.update');
+Route::get('/items/{itemInStock}/edit', [ItemInStockController::class, 'edit'])->name('items.edit');
+Route::put('/items/{itemInStock}', [ItemInStockController::class, 'update'])->name('items.update');
 
 
 
