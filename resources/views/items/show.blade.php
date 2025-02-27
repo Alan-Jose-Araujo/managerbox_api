@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <h2>Detalhes do Item</h2>
-        
+
         <p><strong>Nome:</strong> {{ $item->name }}</p>
         <p><strong>Descrição:</strong> {{ $item->description }}</p>
         <p><strong>Quantidade:</strong> {{ number_format($item->current_quantity, 2, ',', '.') }}</p>
