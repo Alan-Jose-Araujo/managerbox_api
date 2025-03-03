@@ -88,8 +88,19 @@ class ItemInStockController extends Controller
             $validatedData['current_quantity'] = $validatedData['current_quantity'] ?? 0;
             $validatedData['is_active'] = $request->has('is_active');
 
-            // Upload de imagem
-            $validatedData['picture'] = $request->file('image')?->store('ItemsInStock/images', 'public') ?? null;
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                
+                // Armazena a imagem na pasta public/ItemsInStock/images
+                $file->move(public_path('ItemsInStock/images'), $fileName);
+            
+                // Salva apenas o caminho relativo no banco de dados
+                $validatedData['picture'] = 'ItemsInStock/images/' . $fileName;
+            } else {
+                $validatedData['picture'] = null;
+            }
+            
 
             Log::info('Tentando criar item', ['company_id' => $companyId]);
             Log::info('Usuário autenticado:', [
@@ -154,20 +165,31 @@ class ItemInStockController extends Controller
     public function update(Request $request, $id)
     {
         $item = ItemInStock::findOrFail($id);
-
+    
         $data = $request->all();
-
+    
         // Se houver um novo arquivo de imagem, salva e atualiza o campo
-        if($path = $request->file('image')?->store('ItemsInStock/images', 'public') ?? null &&
-        Storage::disk('public')->has($item->picture)) {
-            Storage::disk('public')->delete($item->picture);
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            
+            // Armazena a imagem na pasta public/ItemsInStock/images
+            $file->move(public_path('ItemsInStock/images'), $fileName);
+            
+            // Remover a imagem antiga, se existir
+            if ($item->picture && file_exists(public_path($item->picture))) {
+                unlink(public_path($item->picture));
+            }
+            
+            // Salva apenas o caminho relativo no banco de dados
+            $data['picture'] = 'ItemsInStock/images/' . $fileName;
         }
-        $data['picture'] = $path;
-
+    
         $item->update($data);
-
+    
         return redirect()->route('items.index')->with('success', 'Item atualizado com sucesso!');
     }
+    
 
     /**
      * Remove the specified resource from storage.
