@@ -26,6 +26,7 @@
         <div class="mb-4">
             <label class="block">Senha:</label>
             <input type="password" name="password" class="w-full border px-3 py-2 rounded" required>
+            <p>Não Possui uma conta? <a href="{{ route('register') }}">Cadastre-se aqui</a></p>
         </div>
 
         <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded">Entrar</button>
