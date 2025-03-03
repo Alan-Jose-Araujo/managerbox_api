@@ -17,47 +17,57 @@ class StockMovementController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ItemInStock $itemInStock)
+    public function index($id)
+{
+    $item = ItemInStock::findOrFail($id);
+    $movements = StockMovement::where('item_in_stock_id', $id)
+        ->orderBy('created_at', 'desc')
+        ->with('item') // Garante que a relação 'item' seja carregada
+        ->get();
+    
+    return view('items.movements', compact('item', 'movements'));
+}
+
+    
+    public function store(Request $request, $id)
     {
-        try
-        {
-            $stockMovements = StockMovement::where('item_in_stock_id', $itemInStock->id)->orderBy('created_at', 'desc')
-            ->get();
-//            return View::make('')->with('stockMovements', $stockMovements)->render();
+        $request->validate([
+            'movement_type' => 'required|in:checkin,checkout',
+            'quantity' => 'required|numeric|min:1',
+        ]);
+    
+        $item = ItemInStock::findOrFail($id);
+        
+        // Verifica se o usuário está autenticado
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'Você precisa estar autenticado para registrar uma movimentação.');
         }
-        catch(\Exception $exception)
-        {
-            Log::error($exception);
-            return $this->sendErrorResponse();
+
+        $user = auth()->user();
+    
+        // Atualiza a quantidade do estoque
+        if ($request->movement_type == 'checkin') {
+            $item->current_quantity += $request->quantity;
+        } elseif ($request->movement_type == 'checkout') {
+            if ($item->current_quantity < $request->quantity) {
+                return back()->with('error', 'Estoque insuficiente para essa saída.');
+            }
+            $item->current_quantity -= $request->quantity;
         }
+    
+        $item->save();
+    
+        // Salva a movimentação
+        StockMovement::create([
+            'movement_type' => $request->movement_type,
+            'quantity' => $request->quantity,
+            'company_id' => $user->company_id,
+            'item_in_stock_id' => $id,
+        ]);
+    
+        return back()->with('success', 'Movimentação registrada com sucesso.');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request, ItemInStock $itemInStock)
-    {
-        try
-        {
-           $validatedData = $request->validate([
-               'movement_type' => ['required', 'string', 'in:checkin,checkout'],
-               'quantity' => ['required', 'decimal:2', 'min:1', 'digits_between:1,10'],
-               'value' => ['nullable', 'decimal:2', 'min:1', 'digits_between:1,10'],
-           ]);
-
-           $validatedData['company_id'] = Session::get('company_id');
-           $validatedData['item_in_stock_id'] = $itemInStock->id;
-
-           StockMovement::create($validatedData);
-
-//           return;
-        }
-        catch(\Exception $exception)
-        {
-            Log::error($exception);
-            return $this->sendErrorResponse();
-        }
-    }
+    
 
     /**
      * Display the specified resource.

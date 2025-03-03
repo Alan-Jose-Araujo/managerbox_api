@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemInStockController;
+use App\Http\Controllers\StockMovementController;
 
 // Página inicial redireciona para login
 Route::get('/', function () {
@@ -41,6 +42,10 @@ Route::delete('/items/{id}', [ItemInStockController::class, 'destroy'])->name('i
 Route::get('/items/{itemInStock}/edit', [ItemInStockController::class, 'edit'])->name('items.edit');
 Route::put('/items/{itemInStock}', [ItemInStockController::class, 'update'])->name('items.update');
 
+Route::get('/items/{id}/movements', [StockMovementController::class, 'index'])->name('items.movements');
+Route::post('/items/{id}/movements/store', [StockMovementController::class, 'store'])->name('items.movements.store');
+
+Route::get('/movements/{id}', [StockMovementController::class, 'index'])->name('movements.index');
 
 
 /*Route::resource('items', ItemInStockController::class)->names([
@@ -51,3 +56,12 @@ Route::put('/items/{itemInStock}', [ItemInStockController::class, 'update'])->na
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/items', [ItemInStockController::class, 'store']);
 });
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/items', [ItemInStockController::class, 'index'])->name('items.index');
+//Route::get('/movements', [StockMovementController::class, 'index'])->name('movements.index');
+Route::get('/items/{id}/movements', [StockMovementController::class, 'index'])->name('items.movements');
+
+
+
+

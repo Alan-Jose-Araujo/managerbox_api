@@ -10,12 +10,11 @@ class StockMovement extends Model
     protected $table = 'stock_movements';
 
     protected $fillable = [
+        'movement_type',
         'quantity',
         'value',
         'company_id',
-        'item_in_stock_id',
-        'movement_type',
-//        'supplier_id',
+        'item_in_stock_id'
     ];
 
     protected static function booted()
@@ -25,5 +24,11 @@ class StockMovement extends Model
                 $builder->where('company_id', auth()->user()->company_id);
             }
         });
+    }
+
+    // Relacionamento com ItemInStock
+    public function item()
+    {
+        return $this->belongsTo(ItemInStock::class, 'item_in_stock_id');
     }
 }

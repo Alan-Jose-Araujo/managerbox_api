@@ -14,55 +14,59 @@
                         <h2>Gerenciar <b>Estoque</b></h2>
                     </div>
                     <div class="col-sm-6">
-                    <a href="{{ route('items.create') }}" class="btn btn-success">
-    <i class="material-icons">&#xE147;</i> <span>Adicionar Novo Item</span>
-</a>
+                        <a href="{{ route('items.create') }}" class="btn btn-success">
+                            <i class="material-icons">&#xE147;</i> <span>Adicionar Novo Item</span>
+                        </a>
                     </div>
                 </div>
             </div>
+            
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
+
             @if ($items->isEmpty())
                 <p>Nenhum item em estoque.</p>
             @else
                 <table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th style="width: 5%;">ID</th>
-            <th style="width: 45%;">Nome</th>
-            <th style="width: 15%;">Quantidade</th>
-            <th style="width: 35%;">Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($items as $item)
-            <tr>
-                <td>{{ $item->id }}</td>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->current_quantity }}</td>
-                <td>
-                    <a href="{{ route('items.show', $item->id) }}" class="edit" title="Detalhes" data-toggle="tooltip">
-                        <i class="material-icons">&#xE417;</i>
-                    </a>
-                    <a href="{{ route('items.edit', $item->id) }}" class="edit" title="Editar" data-toggle="tooltip">
-                        <i class="material-icons">&#xE254;</i>
-                    </a>
-                    <form action="{{ route('items.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este item?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="delete" title="Excluir" data-toggle="tooltip">
-                            <i class="material-icons">&#xE872;</i>
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
-
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($items as $item)
+                            <tr>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->current_quantity }}</td>
+                                <td>
+                                    <a href="{{ route('items.show', $item->id) }}" class="edit" title="Detalhes">
+                                        <i class="material-icons">&#xE417;</i>
+                                    </a>
+                                    <a href="{{ route('items.edit', $item->id) }}" class="edit" title="Editar">
+                                        <i class="material-icons">&#xE254;</i>
+                                    </a>
+                                    <a href="{{ route('items.movements', $item->id) }}" class="move" title="Movimentar Estoque">
+                                        <i class="material-icons">&#xE8CB;</i> <!-- Ícone de movimentação -->
+                                    </a>
+                                    <form action="{{ route('items.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este item?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="delete" title="Excluir">
+                                            <i class="material-icons">&#xE872;</i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             @endif
         </div>
     </div>

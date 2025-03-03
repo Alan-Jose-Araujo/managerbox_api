@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
-            $table->char('movement_type', 10);
+            $table->enum('movement_type', ['checkin', 'checkout']);
             $table->double('quantity');
             $table->decimal('value', 12, 2)->nullable();
             $table->foreignId('company_id')->constrained('companies', 'id')
             ->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('item_in_stock_id')->constrained('items_in_stock')->cascadeOnUpdate()->cascadeOnDelete(); // 🔥 Aqui está o vínculo
             $table->timestamps();
             $table->index('movement_type');
         });

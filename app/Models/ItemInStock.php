@@ -53,4 +53,9 @@ class ItemInStock extends Model
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
+    // Relacionamento com StockMovement
+    public function movements()
+    {
+        return $this->hasMany(StockMovement::class, 'item_in_stock_id');
+    }
 }
