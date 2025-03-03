@@ -98,6 +98,25 @@
     });
 
     showStep(currentStep);
+
+    // Máscaras
+    $(document).ready(function() {
+        // Máscara para CPF
+        $('input[name="user_cpf"]').mask('000.000.000-00', {reverse: true});
+
+        // Máscara para CNPJ
+        $('input[name="company_cnpj"]').mask('00.000.000/0000-00', {reverse: true});
+
+        //Mascara para telefone Fixo com ddd
+        $('input[name="company_landline"]').mask('(00)0000-0000')
+
+        //mascara zip_code
+        $('input[name="zip_code"]').mask('00000-000')
+
+        
+
+    });
+
 </script>
 @endsection
 

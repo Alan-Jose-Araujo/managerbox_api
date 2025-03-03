@@ -31,6 +31,8 @@ class RegisterController extends Controller
             'company_landline' => 'nullable|string|max:8',
             'company_cnae_code' => 'required|integer',
             'user_phone_number' => 'nullable|string|max:20', // Agora é opcional
+            'company_address_zipcode' => 'nullable|string|max:10', // Validação do CEP
+            'user_address_zipcode' => 'nullable|string|max:10',
 
             // Dados do usuário
             'user_name' => 'required|string|max:255',
@@ -40,15 +42,22 @@ class RegisterController extends Controller
             'user_phone_number' => 'nullable|string|max:11',
         ]);
 
+        // Limpar o CPF, CNPJ e CEP antes de salvar no banco de dados removendo quaisquer caracteres não númericos
+        $userCpf = preg_replace('/\D/', '', $request->input('user_cpf'));  
+        $companyCnpj = preg_replace('/\D/', '', $request->input('company_cnpj'));
+        $companyZipcode = preg_replace('/\D/', '', $request->input('company_address_zipcode'));  
+        $userZipcode = preg_replace('/\D/', '', $request->input('user_address_zipcode')); 
+        $companyLandline = preg_replace('/\D/', '', $request->input('company_landline'));
+
         // Criando a empresa
         $company = Company::create([
             'fantasy_name' => $validatedData['company_name'],
             'corporate_reason' => $validatedData['company_corporate_reason'],
             'email' => $validatedData['company_email'],
-            'cnpj' => $validatedData['company_cnpj'],
+            'cnpj' => $companyCnpj,
             'state_registration' => $validatedData['company_state_registration'],
             'foundation_date' => $validatedData['company_foundation_date'] ?? null,
-            'landline' => $validatedData['company_landline'],
+            'landline' => $companyLandline,
             'metier_id' => Metier::find($validatedData['company_cnae_code'])->id,
         ]);
 
@@ -57,7 +66,7 @@ class RegisterController extends Controller
             'name' => $validatedData['user_name'],
             'email' => $validatedData['user_email'],
             'password' => Hash::make($validatedData['user_password']),
-            'cpf' => $validatedData['user_cpf'],
+            'cpf' => $userCpf, //CPF com valores numericos
             'phone_number' => $validatedData['user_phone_number']?? null,
             'company_id' => $company->id,
         ]);
