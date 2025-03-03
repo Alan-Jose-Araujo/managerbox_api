@@ -106,14 +106,17 @@ button.delete:hover {
 .table-striped thead th {
     background-color: #f0f0f0;
     border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+    text-align: left; /* Garante que o texto esteja alinhado à esquerda */
 }
 
 .table-striped th,
 .table-striped td {
-    padding: 10px;
+    padding: 8px; /* Reduz o espaço interno para melhor alinhamento */
     border: none;
     border-bottom: 1px solid #ddd;
-    vertical-align: middle;
+    vertical-align: middle; /* Alinha o conteúdo verticalmente */
+    text-align: left; /* Garante que o texto esteja alinhado à esquerda */
 }
 
 .table-striped th {
