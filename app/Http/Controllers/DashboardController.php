@@ -11,6 +11,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
+
+        // Verifica se o usuário está autenticado
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Você precisa estar autenticado para acessar o dashboard.');
+        }
+        
         $companyId = Auth::user()->company_id;
 
         // Contagem de itens com estoque baixo
