@@ -22,10 +22,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            Session::put('company_id', Auth::user()->company_id);
             return redirect()->route('dashboard');
         }
-
-        Session::put('company_id', Auth::user()->company_id);
 
         return back()->withErrors(['email' => 'Credenciais inválidas.']);
     }
