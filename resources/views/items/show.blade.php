@@ -46,6 +46,25 @@
             <p class="xl:pr-48 text-base lg:leading-tight leading-normal text-gray-600 mt-7">{{ $item->description }}</p>
             <p class="text-base leading-4 mt-7 text-gray-600">Localização: {{ $item->location }}</p>
         </div>
+        
+        <div class="py-4 border-b border-gray-200 flex items-center justify-between">
+    <p class="text-base leading-4 text-gray-800">Quantidade Mínima</p>
+    <div class="flex items-center justify-center">
+        <p class="text-sm leading-none text-gray-600">{{ $item->minimum_quantity }}</p>
+    </div>
+</div>
+
+<div class="py-4 border-b border-gray-200 flex items-center justify-between">
+    <p class="text-base leading-4 text-gray-800">Quantidade Atual</p>
+    <div class="flex items-center justify-center">
+        @if ($item->current_quantity < $item->minimum_quantity)
+            <span class="text-danger font-weight-bold">{{ $item->current_quantity }}</span>
+            <small class="text-danger"> (Baixo estoque)</small>
+        @else
+            {{ $item->current_quantity }}
+        @endif
+    </div>
+</div>
         <div class="flex justify-between mt-5">
             <a href="{{ route('items.index') }}" class="btn btn-secondary">Voltar</a>
             <a href="{{ route('items.edit', $item->id) }}" class="btn btn-primary">Editar</a>

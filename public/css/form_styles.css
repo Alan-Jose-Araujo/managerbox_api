@@ -101,3 +101,11 @@ label {
     border-color: #6c757d;
     color: #fff;
 }
+.text-danger {
+    font-weight: bold;
+}
+
+small.text-danger {
+    font-size: 0.8em;
+    font-weight: normal;
+}

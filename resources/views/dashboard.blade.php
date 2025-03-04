@@ -112,6 +112,40 @@
                     @endforeach
                 </div>
             </div>
+
+            <!-- Bloco para Produtos em Baixa -->
+<div class="bg-white p-6 rounded-lg shadow-md mb-6">
+    <h2 class="text-lg font-bold mb-4">Produtos em Baixa</h2>
+    @if ($lowStockItems->isEmpty())
+        <p>Nenhum produto em baixa.</p>
+    @else
+        <table class="min-w-full bg-white">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">Nome</th>
+                    <th class="py-2 px-4 border-b">Quantidade</th>
+                    <th class="py-2 px-4 border-b">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($lowStockItems as $item)
+                    <tr>
+                        <td class="py-2 px-4 border-b">{{ $item->name }}</td>
+                        <td class="py-2 px-4 border-b">
+                            <span class="text-danger font-weight-bold">{{ $item->current_quantity }}</span>
+                            <small class="text-danger"> (Baixo estoque)</small>
+                        </td>
+                        <td class="py-2 px-4 border-b">
+                            <a href="{{ route('items.show', $item->id) }}" class="text-blue-500">Detalhes</a>
+                            <a href="{{ route('items.movements', $item->id) }}" class="text-blue-500">Movimentações</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>
+
         </div>
     </div>
 </body>

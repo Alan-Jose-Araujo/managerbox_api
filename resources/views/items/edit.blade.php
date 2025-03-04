@@ -81,6 +81,12 @@
             <option value="{{ $category->id }}">{{ $category->name }}</option>
         @endforeach
 
+        <div class="form-group">
+    <label>Quantidade Mínima</label>
+    <input type="number" name="minimum_quantity" class="form-control" value="{{ $item->minimum_quantity }}" min="0" required>
+</div>
+
+
                 <button type="submit" class="btn btn-primary mt-3">Atualizar</button>
             </form>
         </div>

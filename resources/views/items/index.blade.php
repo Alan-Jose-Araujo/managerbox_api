@@ -64,31 +64,40 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($items as $item)
-                            <tr>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->current_quantity }}</td>
-                                <td>
-                                    <a href="{{ route('items.show', $item->id) }}" class="edit" title="Detalhes">
-                                        <i class="material-icons">&#xE417;</i>
-                                    </a>
-                                    <a href="{{ route('items.edit', $item->id) }}" class="edit" title="Editar">
-                                        <i class="material-icons">&#xE254;</i>
-                                    </a>
-                                    <a href="{{ route('items.movements', $item->id) }}" class="move" title="Movimentar Estoque">
-                                        <i class="material-icons">&#xE8CB;</i> <!-- Ícone de movimentação -->
-                                    </a>
-                                    <form action="{{ route('items.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este item?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="delete" title="Excluir">
-                                            <i class="material-icons">&#xE872;</i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
+                    @foreach ($items as $item)
+    <tr>
+        <td>{{ $item->id }}</td>
+        <td>{{ $item->name }}</td>
+        <td>
+            @if ($item->current_quantity < $item->minimum_quantity)
+                <span class="text-danger font-weight-bold">{{ $item->current_quantity }}</span>
+                <small class="text-danger"> (Baixo estoque)</small>
+            @else
+                {{ $item->current_quantity }}
+            @endif
+        </td>
+        <td>
+            <a href="{{ route('items.show', $item->id) }}" class="edit" title="Detalhes">
+                <i class="material-icons">&#xE417;</i>
+            </a>
+            <a href="{{ route('items.edit', $item->id) }}" class="edit" title="Editar">
+                <i class="material-icons">&#xE254;</i>
+            </a>
+            <a href="{{ route('items.movements', $item->id) }}" class="move" title="Movimentar Estoque">
+                <i class="material-icons">&#xE8CB;</i> <!-- Ícone de movimentação -->
+            </a>
+            <form action="{{ route('items.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este item?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="delete" title="Excluir">
+                    <i class="material-icons">&#xE872;</i>
+                </button>
+            </form>
+        </td>
+    </tr>
+@endforeach
+
+
                     </tbody>
                 </table>
             @endif

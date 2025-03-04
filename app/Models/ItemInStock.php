@@ -28,7 +28,8 @@ class ItemInStock extends Model
         'location',
         'is_active',
         'company_id',
-        'category_id'
+        'category_id',
+        'minimum_quantity', // Adicione essa linha
     ];
 
     protected static function booted()

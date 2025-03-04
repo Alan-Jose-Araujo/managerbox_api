@@ -77,6 +77,11 @@
     </select>
 </div>
 
+<div class="form-group">
+    <label>Quantidade Mínima</label>
+    <input type="number" name="minimum_quantity" class="form-control" min="0" value="0" required>
+</div>
+
 
 
                 <button type="submit" class="btn btn-success mt-3">Salvar</button>

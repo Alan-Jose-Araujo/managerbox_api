@@ -149,3 +149,12 @@ button.delete:hover {
 .table {
     width: 100%;
 }
+
+.text-danger {
+    font-weight: bold;
+}
+
+small.text-danger {
+    font-size: 0.8em;
+    font-weight: normal;
+}

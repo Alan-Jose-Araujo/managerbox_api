@@ -108,7 +108,8 @@ class ItemInStockController extends Controller
                 'location' => 'nullable|string',
                 'is_active' => 'boolean',
                 'image' => 'nullable|image|max:2048',
-                'category_id' => 'nullable|integer|exists:categories,id', // Adicionado aqui
+                'category_id' => 'nullable|integer|exists:categories,id',
+                'minimum_quantity' => 'required|integer|min:0'// Adicionado aqui
             ]);
 
             // Adicionar company_id e categoria
@@ -218,7 +219,8 @@ class ItemInStockController extends Controller
     
         // Inclua a categoria nos dados
         $data['category_id'] = $request->input('category_id');
-    
+        $data['minimum_quantity'] = $request->input('minimum_quantity');
+
         $item->update($data);
     
         return redirect()->route('items.index')->with('success', 'Item atualizado com sucesso!');
