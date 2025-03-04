@@ -49,7 +49,9 @@ class ItemInStockController extends Controller
         if ($lowStock) {
             $query->where('current_quantity', '<', 5);
         }
-        
+
+        $query->where('deleted_at', null);
+
         $items = $query->get();
         
         return view('items.index', compact('items', 'categories'));
