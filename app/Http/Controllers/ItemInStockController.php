@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ItemInStock\StoreItemInStockRequest;
 use App\Http\Requests\ItemInStock\UpdateItemInStockRequest;
 use App\Models\ItemInStock;
+use App\Models\Category;
 use App\Traits\Http\SendJsonResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -13,7 +14,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
-
 class ItemInStockController extends Controller
 {
     use SendJsonResponses;
@@ -21,23 +21,33 @@ class ItemInStockController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        try {
-            $items = ItemInStock::all(); // Buscar todos os itens no banco
-            return view('items.index', compact('items')); // Passar os itens para a view
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            return $this->sendErrorResponse();
+    public function index(Request $request)
+{
+    try {
+        $categories = Category::all();
+        $categoryId = $request->input('category_id');
+        
+        if ($categoryId) {
+            $items = ItemInStock::where('category_id', $categoryId)->get();
+        } else {
+            $items = ItemInStock::all();
         }
+        
+        return view('items.index', compact('items', 'categories'));
+    } catch (\Exception $exception) {
+        Log::error($exception);
+        return $this->sendErrorResponse();
     }
+}
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('items.create');
+        $categories = Category::all();
+        return view('items.create', compact('categories'));
     }
 
     /**
@@ -78,9 +88,10 @@ class ItemInStockController extends Controller
                 'location' => 'nullable|string',
                 'is_active' => 'boolean',
                 'image' => 'nullable|image|max:2048',
+                'category_id' => 'nullable|integer|exists:categories,id', // Adicionado aqui
             ]);
 
-            // Adicionar company_id
+            // Adicionar company_id e categoria
             $validatedData['company_id'] = $companyId;
             $validatedData['sku_code'] = $this->generateSkuCode();
             $validatedData['barcode'] = $validatedData['barcode'] ?? $this->generateBarcode();
@@ -122,7 +133,6 @@ class ItemInStockController extends Controller
         }
     }
 
-
     private function generateSkuCode(): string
     {
         do {
@@ -158,13 +168,14 @@ class ItemInStockController extends Controller
      */
     public function edit($id)
     {
-        $item = ItemInStock::findOrFail($id);
-        return view('items.edit', compact('item'));
+        $item = ItemInStock::find($id);
+        $categories = Category::all();
+        return view('items.edit', compact('item', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
-        $item = ItemInStock::findOrFail($id);
+        $item = ItemInStock::find($id);
     
         $data = $request->all();
     
@@ -185,11 +196,13 @@ class ItemInStockController extends Controller
             $data['picture'] = 'ItemsInStock/images/' . $fileName;
         }
     
+        // Inclua a categoria nos dados
+        $data['category_id'] = $request->input('category_id');
+    
         $item->update($data);
     
         return redirect()->route('items.index')->with('success', 'Item atualizado com sucesso!');
     }
-    
 
     /**
      * Remove the specified resource from storage.
@@ -208,3 +221,4 @@ class ItemInStockController extends Controller
         return redirect()->route('items.index')->with('success', 'Item excluído com sucesso!');
     }
 }
+

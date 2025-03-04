@@ -67,6 +67,18 @@
                     <label class="form-check-label">Ativo</label>
                 </div>
 
+                <div class="form-group mb-3">
+    <label for="category_id">Categoria:</label>
+    <select name="category_id" class="form-control">
+        <option value="">Selecione uma categoria</option>
+        @foreach ($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+    </select>
+</div>
+
+
+
                 <button type="submit" class="btn btn-success mt-3">Salvar</button>
             </form>
         </div>

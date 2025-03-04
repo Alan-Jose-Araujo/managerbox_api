@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemInStockController;
 use App\Http\Controllers\StockMovementController;
+use App\Http\Controllers\CategoryController;
 
 // Página inicial
 Route::get('/', function () {
@@ -61,6 +62,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/items', [ItemInStockController::class, 'index'])->name('items.index');
 //Route::get('/movements', [StockMovementController::class, 'index'])->name('movements.index');
 Route::get('/items/{id}/movements', [StockMovementController::class, 'index'])->name('items.movements');
+
+Route::resource('categories', CategoryController::class)->middleware('auth');
+
 
 
 

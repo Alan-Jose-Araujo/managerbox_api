@@ -15,7 +15,7 @@
             <nav>
                 <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Dashboard</a>
                 <a href="{{ route('items.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Gerenciar Itens</a>
-                
+                <a href="{{ route('categories.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Gerenciar Categorias</a>
             </nav>
         </div>
         
@@ -97,6 +97,19 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+            </div>
+            
+            <!-- Categorias -->
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-lg font-bold mb-4">Categorias</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    @foreach ($categories as $category)
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h5 class="card-title">{{ $category->name }}</h5>
+                            <p class="card-text">Produtos: {{ $category->items_count }}</p>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>

@@ -8,27 +8,39 @@
 <div class="container">
     <div class="table-responsive">
         <div class="table-wrapper">
-        <div class="table-title">
-    <div class="row">
-        <div class="col-sm-6">
-            <h2>Gerenciar <b>Estoque</b></h2>
-        </div>
-        <div class="col-sm-6 text-end">
-            <a href="{{ route('items.create') }}" class="btn btn-success mr-2">
-                <i class="material-icons">&#xE147;</i> <span>Adicionar Novo Item</span>
-            </a>
-            <a href="{{ route('dashboard') }}" class="btn btn-secondary">
-                <i class="material-icons">&#xe5c4;</i> Voltar para Dashboard
-            </a>
-        </div>
-    </div>
-</div>
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Gerenciar <b>Estoque</b></h2>
+                    </div>
+                    <div class="col-sm-6 text-end">
+                        <a href="{{ route('items.create') }}" class="btn btn-success mr-2">
+                            <i class="material-icons">&#xE147;</i> <span>Adicionar Novo Item</span>
+                        </a>
+                        <a href="{{ route('dashboard') }}" class="btn btn-secondary">
+                            <i class="material-icons">&#xe5c4;</i> Voltar para Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
             
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
+
+            <form action="" method="GET">
+                <div class="form-group mb-3">
+                    <label for="category_id">Filtrar por Categoria:</label>
+                    <select name="category_id" class="form-control" onchange="this.form.submit()">
+                        <option value="">Todos</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" {{ $category->id == request()->input('category_id') ? 'selected' : '' }}>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </form>
 
             @if ($items->isEmpty())
                 <p>Nenhum item em estoque.</p>

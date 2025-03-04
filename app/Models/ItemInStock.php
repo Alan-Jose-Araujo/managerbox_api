@@ -27,7 +27,8 @@ class ItemInStock extends Model
         'picture',
         'location',
         'is_active',
-        'company_id'
+        'company_id',
+        'category_id'
     ];
 
     protected static function booted()
@@ -57,5 +58,9 @@ class ItemInStock extends Model
     public function movements()
     {
         return $this->hasMany(StockMovement::class, 'item_in_stock_id');
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

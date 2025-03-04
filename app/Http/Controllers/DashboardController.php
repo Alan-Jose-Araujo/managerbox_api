@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\StockMovement;
+use App\Models\Category;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-
         // Verifica se o usuário está autenticado
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Você precisa estar autenticado para acessar o dashboard.');
@@ -52,6 +52,9 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
 
+        // Categorias
+        $categories = Category::withCount('items')->get();
+
         return view('dashboard', [
             'lowStockCount' => $lowStockCount,
             'totalItemsInStock' => $totalItemsInStock,
@@ -59,7 +62,9 @@ class DashboardController extends Controller
             'activeProductsCount' => $activeProductsCount,
             'items' => $items,
             'movements' => $movements,
+            'categories' => $categories, // Adicionado aqui
         ]);
     }
 }
+
 
