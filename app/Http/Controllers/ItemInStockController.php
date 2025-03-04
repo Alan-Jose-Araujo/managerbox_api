@@ -26,12 +26,31 @@ class ItemInStockController extends Controller
     try {
         $categories = Category::all();
         $categoryId = $request->input('category_id');
+        $search = $request->input('search');
+        $lowStock = $request->input('lowStock');
+        
+        $query = ItemInStock::query();
         
         if ($categoryId) {
-            $items = ItemInStock::where('category_id', $categoryId)->get();
-        } else {
-            $items = ItemInStock::all();
+            $query->where('category_id', $categoryId);
         }
+        
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%')
+                      ->orWhere('description', 'LIKE', '%' . $search . '%')
+                      ->orWhereIn('category_id', function ($query) use ($search) {
+                          $query->select('id')->from('categories')->where('name', 'LIKE', '%' . $search . '%');
+                      })
+                      ->orWhere('current_quantity', 'LIKE', '%' . $search . '%');
+            });
+        }
+        
+        if ($lowStock) {
+            $query->where('current_quantity', '<', 5);
+        }
+        
+        $items = $query->get();
         
         return view('items.index', compact('items', 'categories'));
     } catch (\Exception $exception) {
@@ -39,6 +58,7 @@ class ItemInStockController extends Controller
         return $this->sendErrorResponse();
     }
 }
+
 
 
     /**

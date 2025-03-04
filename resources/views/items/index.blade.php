@@ -32,14 +32,23 @@
 
             <form action="" method="GET">
                 <div class="form-group mb-3">
+                    <label for="search">Pesquisar:</label>
+                    <input type="text" id="search" name="search" class="form-control" placeholder="Nome, Categoria ou Quantidade" value="{{ request()->input('search') }}">
+                </div>
+                <div class="form-group mb-3">
                     <label for="category_id">Filtrar por Categoria:</label>
-                    <select name="category_id" class="form-control" onchange="this.form.submit()">
+                    <select name="category_id" class="form-control">
                         <option value="">Todos</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}" {{ $category->id == request()->input('category_id') ? 'selected' : '' }}>{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="lowStock" name="lowStock" value="true" {{ request()->input('lowStock') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="lowStock">Mostrar apenas produtos em baixa</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Buscar</button>
             </form>
 
             @if ($items->isEmpty())
