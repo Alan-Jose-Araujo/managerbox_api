@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\StockMovement;
 use App\Models\Category;
 use App\Models\ItemInStock;
-
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -16,48 +16,48 @@ class DashboardController extends Controller
 {
     // Verifica se o usuário está autenticado
     if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'Você precisa estar autenticado para acessar o dashboard.');
+        return redirect()
+        ->route('login')
+        ->withErrors('error', 'Você precisa estar autenticado para acessar o dashboard.');
     }
     
-    $companyId = Auth::user()->company_id;
+    $companyId = Session::get('company_id');
 
     // Contagem de itens com estoque baixo
     $lowStockCount = DB::table('items_in_stock')
-        ->where('company_id', $companyId)
-        ->where('current_quantity', '<', 5)
-        ->count();
+    ->where('company_id', $companyId)
+    ->where('current_quantity', '<', 5)
+    ->count();
 
     // Produtos em baixa
-    $lowStockItems = ItemInStock::where('company_id', $companyId)
-        ->where('current_quantity', '<', 5)
-        ->get();
+    $lowStockItems = ItemInStock::where('current_quantity', '<', 5)
+    ->get();
 
-    // Contagem total de itens em estoque
-    $totalItemsInStock = DB::table('items_in_stock')
-        ->where('company_id', $companyId)
-        ->count();
+    // Contagem total de itens em estoque. TODO: Ajustar para obter resultados a partir de uma data recente.
+    $totalItemsInStock = ItemInStock::all()->count();
 
     // Contagem total de movimentações de estoque
     $totalStockMovements = StockMovement::count();
 
     // Contagem de produtos ativos
-    $activeProductsCount = DB::table('items_in_stock')
-        ->where('company_id', $companyId)
-        ->where('is_active', true)
-        ->count();
+    $activeProductsCount = ItemInStock::all()
+    ->where('is_active', true)
+    ->count();
 
     // Últimos itens cadastrados
+
     $items = DB::table('items_in_stock')
-        ->where('company_id', $companyId)
-        ->latest()
-        ->take(5)
-        ->get();
+    ->where('company_id', $companyId)
+    ->where('deleted_at', null)
+    ->latest()
+    ->take(5)
+    ->get();
 
     // Últimas movimentações
     $movements = StockMovement::with('item')
-        ->latest()
-        ->take(10)
-        ->get();
+    ->latest()
+    ->take(10)
+    ->get();
 
     // Categorias
     $categories = Category::withCount('items')->get();
