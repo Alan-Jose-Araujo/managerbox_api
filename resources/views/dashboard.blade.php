@@ -11,7 +11,7 @@
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="bg-gray-900 text-white w-64 space-y-6 py-7 px-2">
-            <div class="text-center text-2xl font-semibold">Inventory System</div>
+            <div class="text-center text-2xl font-semibold">ManagerBox</div>
             <nav>
                 <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Dashboard</a>
                 <a href="{{ route('items.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Gerenciar Itens</a>

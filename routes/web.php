@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemInStockController;
 use App\Http\Controllers\StockMovementController;
 
-// Página inicial redireciona para login
+// Página inicial
 Route::get('/', function () {
-    return redirect('/login');
-});
+    return view('welcome');
+})->name('welcome');
 
 // Rotas para o Login
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
