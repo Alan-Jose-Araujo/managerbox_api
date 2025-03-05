@@ -35,11 +35,11 @@ class RegisterController extends Controller
             'user_address_zipcode' => 'nullable|string|max:10',
 
             // Dados do usuário
-            'user_name' => 'required|string|max:255',
-            'user_email' => 'required|email|unique:users,email',
+            'user_name' => 'required|string|min:3|max:255',
+            'user_email' => 'required|email|unique:users,email|max:255',
             'user_password' => 'required|string|min:6|confirmed',
             'user_cpf' => 'required|string|size:11|unique:users,cpf',
-            'user_phone_number' => 'nullable|string|max:11',
+            'user_phone_number' => 'nullable|string|size:11',
         ]);
 
         // Limpar o CPF, CNPJ e CEP antes de salvar no banco de dados removendo quaisquer caracteres não númericos
@@ -76,5 +76,15 @@ class RegisterController extends Controller
         Session::put('company_id', $user->company_id);
 
         return redirect('/dashboard');
+    }
+
+    public function destroy()
+    {
+        $user = Auth::user();
+        $company = $user->relatedCompany;
+        $user->destroy();
+        $company->destroy();
+        Auth::logout();
+        return redirect('/');
     }
 }
