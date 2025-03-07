@@ -65,6 +65,10 @@ Route::get('/items/{id}/movements', [StockMovementController::class, 'index'])->
 
 Route::resource('categories', CategoryController::class)->middleware('auth');
 
+Route::get('/items/export/csv', [ItemInStockController::class, 'exportCsv'])->name('items.export.csv');
+Route::get('/items/export/pdf', [ItemInStockController::class, 'exportPdf'])->name('items.export.pdf');
+
+
 
 
 
