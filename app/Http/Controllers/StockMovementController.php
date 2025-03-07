@@ -40,7 +40,7 @@ class StockMovementController extends Controller
         
         // Verifica se o usuário está autenticado
         if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'Você precisa estar autenticado para registrar uma movimentação.');
+            return redirect()->route('login')->withErrors('error', 'Você precisa estar autenticado para registrar uma movimentação.');
         }
 
         $user = auth()->user();
@@ -50,7 +50,7 @@ class StockMovementController extends Controller
             $item->current_quantity += $request->quantity;
         } elseif ($request->movement_type == 'checkout') {
             if ($item->current_quantity < $request->quantity) {
-                return back()->with('error', 'Estoque insuficiente para essa saída.');
+                return back()->withErrors('error', 'Estoque insuficiente para essa saída.');
             }
             $item->current_quantity -= $request->quantity;
         }

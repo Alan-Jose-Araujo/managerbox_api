@@ -4,8 +4,8 @@ $(document).ready(function(){
         selector: '[data-toggle="tooltip"]'
     });
 
-    // Adicionar confirmação ao excluir item
-    $("form").on("submit", function(e) {
-        return confirm("Tem certeza que deseja excluir este item?");
-    });
+    // // Adicionar confirmação ao excluir item
+    // $("form").on("submit", function(e) {
+    //     return confirm("Tem certeza que deseja excluir este item?");
+    // });
 });

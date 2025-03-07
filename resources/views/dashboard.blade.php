@@ -30,6 +30,16 @@
                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Sair</button>
                 </form>
             </div>
+
+            @if ($errors->any())
+                <div class="text-red-500">
+                    <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                    </ul>
+                </div>
+            @endif
             
             <!-- Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -50,6 +60,7 @@
             <!-- Tabela de Itens -->
             <div class="bg-white p-6 rounded-lg shadow-md mb-6">
                 <h2 class="text-lg font-bold">Itens em Estoque</h2>
+                @if(!$items->isEmpty())
                 <table class="min-w-full bg-white">
                     <thead>
                         <tr>
@@ -71,6 +82,13 @@
                         @endforeach
                     </tbody>
                 </table>
+                @else
+                    <div class="text-center">
+                        <p>Sua empresa ainda não possui itens cadastrados. 
+                            <a href="{{route('items.create')}}" class="text-blue-500 cursor-pointer hover:underline">Adicionar Novo Item</a>
+                        </p>
+                    </div>
+                @endif
             </div>
             
             <!-- Tabela de Movimentações -->

@@ -52,7 +52,9 @@ class ItemInStockController extends Controller
         if ($lowStock) {
             $query->where('current_quantity', '<', 5);
         }
-        
+
+        $query->where('deleted_at', null);
+
         $items = $query->get();
         
         return view('items.index', compact('items', 'categories'));
@@ -88,7 +90,7 @@ class ItemInStockController extends Controller
             auth()->user()->refresh();
 
             // Obter o company_id do usuário autenticado
-            $companyId = auth()->user()->company_id;
+            $companyId = Session::get('company_id');
 
             if (!$companyId) {
                 Log::error('Erro ao cadastrar item: Usuário autenticado sem company_id.', [
