@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use PDF;
+use App\Exports\ItemExport; // Importe aqui
 
 class ItemInStockController extends Controller
 {
@@ -242,5 +245,18 @@ class ItemInStockController extends Controller
 
         return redirect()->route('items.index')->with('success', 'Item excluído com sucesso!');
     }
+
+    public function exportCsv()
+{
+    return Excel::download(new ItemExport, 'items.csv');
+}
+
+
+public function exportPdf()
+{
+    $items = ItemInStock::all();
+    $pdf = PDF::loadView('pdf.items', compact('items'));
+    return $pdf->download('items.pdf');
+}
 }
 
