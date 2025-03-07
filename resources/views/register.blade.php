@@ -113,10 +113,15 @@
         //mascara zip_code
         $('input[name="zip_code"]').mask('00000-000')
 
-        
-
     });
 
+    
+    $(form).on('submit', function() {
+        $('input[name="user_cpf"]').unmask();
+        $('input[name="company_cnpj"]').unmask();
+        $('input[name="company_landline"]').unmask();
+        $('input[name="zip_code"]').unmask();
+    });
 </script>
 @endsection
 
