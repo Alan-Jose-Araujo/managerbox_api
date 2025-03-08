@@ -29,6 +29,7 @@
                         <tr>
                             <th>Tipo</th>
                             <th>Quantidade</th>
+                            <th>Responsável</th> <!-- Nova coluna -->
                             <th>Data</th>
                         </tr>
                     </thead>

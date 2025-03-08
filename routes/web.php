@@ -68,6 +68,12 @@ Route::resource('categories', CategoryController::class)->middleware('auth');
 Route::get('/items/export/csv', [ItemInStockController::class, 'exportCsv'])->name('items.export.csv');
 Route::get('/items/export/pdf', [ItemInStockController::class, 'exportPdf'])->name('items.export.pdf');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');
+    Route::get('/stock-movements/export', [StockMovementController::class, 'export'])->name('stock-movements.export');
+    Route::get('/items/{id}/movements', [StockMovementController::class, 'itemHistory'])->name('items.movements');
+});
+
 
 
 

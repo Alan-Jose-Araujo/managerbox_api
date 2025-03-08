@@ -16,6 +16,7 @@
                 <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Dashboard</a>
                 <a href="{{ route('items.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Gerenciar Itens</a>
                 <a href="{{ route('categories.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Gerenciar Categorias</a>
+                <a href="{{ route('stock-movements.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"> <i class="fas fa-history mr-2"></i>Histórico Completo</a>
             </nav>
         </div>
         
@@ -99,6 +100,7 @@
                         <thead>
                             <tr>
                                 <th class="py-2 px-4 border-b">Produto</th>
+                                <th class="py-2 px-4 border-b">Responsável</th> <!-- Nova coluna -->
                                 <th class="py-2 px-4 border-b">Quantidade</th>
                                 <th class="py-2 px-4 border-b">Tipo</th>
                                 <th class="py-2 px-4 border-b">Data</th>
@@ -108,6 +110,7 @@
                             @foreach ($movements as $movement)
                                 <tr>
                                     <td class="py-2 px-4 border-b">{{ $movement->item?->name }}</td>
+                                    <td class="py-2 px-4 border-b">{{ $movement->user->name }}</td> <!-- Novo campo -->
                                     <td class="py-2 px-4 border-b">{{ $movement->quantity }}</td>
                                     <td class="py-2 px-4 border-b">{{ $movement->movement_type }}</td>
                                     <td class="py-2 px-4 border-b">{{ $movement->created_at->format('d/m/Y H:i') }}</td>

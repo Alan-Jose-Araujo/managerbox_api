@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\StockMovementsExport;
+use Illuminate\Support\Facades\DB;
+
 
 class StockMovementController extends Controller
 {
@@ -17,57 +21,68 @@ class StockMovementController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id)
+    // Histórico geral
+    public function index()
+    {
+        $movements = StockMovement::with(['user', 'item'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+
+        return view('stock-movements.index', compact('movements'));
+    }
+
+    public function itemHistory($id)
 {
     $item = ItemInStock::findOrFail($id);
     $movements = StockMovement::where('item_in_stock_id', $id)
+        ->with('user')
         ->orderBy('created_at', 'desc')
-        ->with('item') // Garante que a relação 'item' seja carregada
         ->get();
-    
-    return view('items.movements', compact('item', 'movements'));
+
+    return view('items.movements', compact('item', 'movements')); // Ajuste aqui
 }
+
+
+
 
     
     public function store(Request $request, $id)
-    {
-        $request->validate([
-            'movement_type' => 'required|in:checkin,checkout',
-            'quantity' => 'required|numeric|min:1',
-        ]);
-    
-        $item = ItemInStock::findOrFail($id);
-        
-        // Verifica se o usuário está autenticado
-        if (!auth()->check()) {
-            return redirect()->route('login')->withErrors('error', 'Você precisa estar autenticado para registrar uma movimentação.');
-        }
+{
+    try {
+        return DB::transaction(function () use ($request, $id) {
+            $request->validate([
+                'movement_type' => 'required|in:checkin,checkout',
+                'quantity' => 'required|numeric|min:1',
+            ]);
 
-        $user = auth()->user();
-    
-        // Atualiza a quantidade do estoque
-        if ($request->movement_type == 'checkin') {
-            $item->current_quantity += $request->quantity;
-        } elseif ($request->movement_type == 'checkout') {
-            if ($item->current_quantity < $request->quantity) {
-                return back()->withErrors('error', 'Estoque insuficiente para essa saída.');
+            $item = ItemInStock::findOrFail($id);
+            $user = auth()->user();
+
+            if ($request->movement_type == 'checkin') {
+                $item->current_quantity += $request->quantity;
+            } elseif ($request->movement_type == 'checkout') {
+                if ($item->current_quantity < $request->quantity) {
+                    return back()->with('error', 'Estoque insuficiente para essa saída.');
+                }
+                $item->current_quantity -= $request->quantity;
             }
-            $item->current_quantity -= $request->quantity;
-        }
-    
-        $item->save();
-    
-        // Salva a movimentação
-        StockMovement::create([
-            'movement_type' => $request->movement_type,
-            'quantity' => $request->quantity,
-            'company_id' => $user->company_id,
-            'item_in_stock_id' => $id,
-        ]);
-    
-        return back()->with('success', 'Movimentação registrada com sucesso.');
+
+            $item->save();
+
+            StockMovement::create([
+                'movement_type' => $request->movement_type,
+                'quantity' => $request->quantity,
+                'user_id' => $user->id,
+                'company_id' => $user->company_id,
+                'item_in_stock_id' => $id,
+            ]);
+
+            return back()->with('success', 'Movimentação registrada com sucesso.');
+        });
+    } catch (\Exception $e) {
+        return back()->with('error', 'Ocorreu um erro ao registrar a movimentação: ' . $e->getMessage());
     }
-    
+}
 
     /**
      * Display the specified resource.
@@ -83,5 +98,10 @@ class StockMovementController extends Controller
             Log::error($exception);
             return $this->sendErrorResponse();
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new StockMovementsExport, 'movimentacoes.xlsx');
     }
 }

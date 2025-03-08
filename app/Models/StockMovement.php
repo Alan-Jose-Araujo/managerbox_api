@@ -14,6 +14,7 @@ class StockMovement extends Model
         'quantity',
         'value',
         'company_id',
+        'user_id',
         'item_in_stock_id'
     ];
 
@@ -30,5 +31,11 @@ class StockMovement extends Model
     public function item()
     {
         return $this->belongsTo(ItemInStock::class, 'item_in_stock_id');
+    }
+
+    // Novo relacionamento com User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
