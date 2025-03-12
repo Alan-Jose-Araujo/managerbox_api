@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Company;
 use App\Models\Metier;
 use App\Models\User;
@@ -31,8 +32,14 @@ class RegisterController extends Controller
             'company_landline' => 'nullable|string|max:8',
             'company_cnae_code' => 'required|integer',
             'user_phone_number' => 'nullable|string|max:20', // Agora é opcional
-            'company_address_zipcode' => 'nullable|string|max:10', // Validação do CEP
-            'user_address_zipcode' => 'nullable|string|max:10',
+
+            'zip_code' => 'required|string|size:8',
+            'street' => 'required|string|min:4|max:255',
+            'number' => 'required|string|max:5',
+            'neighborhood' => 'required|string|min:4|max:255',
+            'complement' => 'nullable|string|max:500',
+            'city' => 'required|string|min:2|max:255',
+            'state' => 'required|string|size:2',
 
             // Dados do usuário
             'user_name' => 'required|string|min:3|max:255',
@@ -45,8 +52,7 @@ class RegisterController extends Controller
         // Limpar o CPF, CNPJ e CEP antes de salvar no banco de dados removendo quaisquer caracteres não númericos
         $userCpf = preg_replace('/\D/', '', $request->input('user_cpf'));  
         $companyCnpj = preg_replace('/\D/', '', $request->input('company_cnpj'));
-        $companyZipcode = preg_replace('/\D/', '', $request->input('company_address_zipcode'));  
-        $userZipcode = preg_replace('/\D/', '', $request->input('user_address_zipcode')); 
+        $companyZipcode = preg_replace('/\D/', '', $request->input('zip_code'));  
         $companyLandline = preg_replace('/\D/', '', $request->input('company_landline'));
 
         // Criando a empresa
@@ -69,6 +75,18 @@ class RegisterController extends Controller
             'cpf' => $userCpf, //CPF com valores numericos
             'phone_number' => $validatedData['user_phone_number']?? null,
             'company_id' => $company->id,
+        ]);
+
+        Address::create([
+            'street' => $request->input('street'),
+            'building_number' => $request->input('building_number'),
+            'complement' => $request->input('complement'),
+            'city' => $request->input('city'),
+            'state' => $request->input('state'),
+            'zipcode' => $request->input('zip_code'),
+            'country' => $request->input('BR'),
+            'addressable_type' => Company::class,
+            'addressable_id' => $company->id,
         ]);
 
         Auth::login($user);
