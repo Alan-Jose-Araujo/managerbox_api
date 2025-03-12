@@ -52,12 +52,14 @@
 
                 <!-- Step 3: Endereço -->
                 <div id="step-3" class="step hidden">
-                    <h3 class="font-semibold mb-4">Endereço</h3>
-                    <input type="text" name="user_address" placeholder="Endereço do Usuário" class="w-full border px-3 py-2 rounded mb-2" required>
-                    <input type="text" name="company_address" placeholder="Endereço da Empresa" class="w-full border px-3 py-2 rounded mb-2" required>
-                    <input type="text" name="city" placeholder="Cidade" class="w-full border px-3 py-2 rounded mb-2" required>
-                    <input type="text" name="state" placeholder="Estado" class="w-full border px-3 py-2 rounded mb-2" required>
-                    <input type="text" name="zip_code" placeholder="CEP" class="w-full border px-3 py-2 rounded mb-2" required>
+                    <h3 class="font-semibold mb-4">Endereço da empresa</h3>
+                    <input type="text" name="zip_code" placeholder="CEP*" class="w-full border px-3 py-2 rounded mb-2" required minlength="8" maxlength="8">
+                    <input type="text" name="street" placeholder="Rua*" class="w-full border px-3 py-2 rounded mb-2" minlength="4" maxlength="255" required>
+                    <input type="text" name="number" placeholder="Número*" class="w-full border px-3 py-2 rounded mb-2" minlength="5" maxlength="5" required>
+                    <input type="text" name="neighborhood" placeholder="Bairro*" class="w-full border px-3 py-2 rounded mb-2" min="4" maxlength="255" required>
+                    <textarea name="complement" placeholder="Complemento" class="w-full border px-3 py-2 rounded mb-2" maxlength="500"></textarea>
+                    <input type="text" name="city" placeholder="Cidade*" class="w-full border px-3 py-2 rounded mb-2" minlength="4" maxlength="255" required>
+                    <input type="text" name="state" placeholder="Estado*" class="w-full border px-3 py-2 rounded mb-2" minlength="2" maxlength="2" required>
                 </div>
 
                 <!-- Navegação -->
@@ -87,6 +89,11 @@
         submitBtn.classList.toggle('hidden', step !== 3);
     }
 
+    function cleanAddressFields() {
+        $('form#multi-step-form input[name="user_address"]').val('');
+        $('form#multi-step-form input[name="user_address"]').val('');
+    }
+
     nextBtn.addEventListener('click', () => {
         currentStep++;
         showStep(currentStep);
@@ -108,10 +115,10 @@
         $('input[name="company_cnpj"]').mask('00.000.000/0000-00', {reverse: true});
 
         //Mascara para telefone Fixo com ddd
-        $('input[name="company_landline"]').mask('(00)0000-0000')
+        $('input[name="company_landline"]').mask('(00)0000-0000');
 
         //mascara zip_code
-        $('input[name="zip_code"]').mask('00000-000')
+        $('input[name="zip_code"]').mask('00000-000');
 
     });
 
