@@ -73,11 +73,11 @@
                     <tbody>
                         @foreach ($items as $item)
                             <tr>
-                                <td class="py-2 px-4 border-b">{{ $item->name }}</td>
-                                <td class="py-2 px-4 border-b">{{ $item->current_quantity }}</td>
-                                <td class="py-2 px-4 border-b">
-                                    <a href="{{ route('items.show', $item->id) }}" class="text-blue-500">Detalhes</a>
-                                    <a href="{{ route('items.movements', $item->id) }}" class="text-blue-500">Movimentações</a>
+                                <td class="py-2 px-4 border-b text-center">{{ $item->name }}</td>
+                                <td class="py-2 px-4 border-b text-center">{{ $item->current_quantity }}</td>
+                                <td class="py-2 px-4 border-b text-center">
+                                    <a href="{{ route('items.show', $item->id) }}" class="text-white p-2 rounded-lg bg-blue-700 hover:bg-blue-800 mx-2">Detalhes</a>
+                                    <a href="{{ route('items.movements', $item->id) }}" class="text-white p-2 rounded-lg bg-blue-800 hover:bg-blue-950 mx-2">Movimentações</a>
                                 </td>
                             </tr>
                         @endforeach

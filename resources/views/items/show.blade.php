@@ -10,14 +10,14 @@
         @if($item->picture)
             <img class="w-full" alt="{{ $item->name }}" src="{{ asset($item->picture) }}" />
         @else
-            <img class="w-full" alt="Sem imagem" src="{{ asset('images/no-image.png') }}" />
+            <img class="w-full" alt="Sem imagem" src="{{ asset('standard_images/standard_package_image.png') }}" />
         @endif
     </div>
     <div class="md:hidden">
         @if($item->picture)
             <img class="w-full" alt="{{ $item->name }}" src="{{ asset($item->picture) }}" />
         @else
-            <img class="w-full" alt="Sem imagem" src="{{ asset('images/no-image.png') }}" />
+            <img class="w-full" alt="Sem imagem" src="{{ asset('standard_images/standard_package_image.png') }}" />
         @endif
     </div>
     <div class="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6">
