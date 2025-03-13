@@ -54,6 +54,7 @@ class ItemInStockController extends Controller
         }
 
         $query->where('deleted_at', null);
+        $query->orderBy('created_at', 'DESC');
 
         $items = $query->get();
         
