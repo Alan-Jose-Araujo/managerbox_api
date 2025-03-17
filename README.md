@@ -26,7 +26,7 @@
     <li>Clone o repositório com o comando <code>git clone https://github.com/Alan-Jose-Araujo/managerbox_api.git</code></li>
     <li>Instale as dependências do composer com o comando <code>composer install</code>. Caso tenha problemas com as extensões, adicione a opção <code>--ignore-platform-reqs</code></li>
     <li>Instale as dependências do node com o comando <code>npm install</code></li>
-    <li>Certifique-se de que o arquivo <code>cnae_codes.json</code> está no diretório <code>storage/app/private</code>. Caso não esteja, <a href="https://drive.google.com/file/d/1_nA8ImLswDXE92TRId658f3AiMuQBoT4/view?usp=sharing">baixe-o aqui</a>.</li>
+    <li>Certifique-se de que o arquivo <code>cnae_codes.json</code> está no diretório <code>storage/app/private</code>. Caso não esteja, <a href="https://drive.google.com/file/d/1_nA8ImLswDXE92TRId658f3AiMuQBoT4/view?usp=sharing">baixe-o aqui</a></li>
     <li>Configure as credenciais do seu banco de dados Mysql</li>
     <li>Execute o comando <code>php artisan key:generate</code></li>
     <li>Execute o comando <code>php artisan migrate</code>, caso queira, pode adicionar a opção <code>--seed</code> para agilizar</li>
