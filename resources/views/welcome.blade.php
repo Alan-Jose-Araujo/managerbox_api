@@ -18,8 +18,8 @@
                 ManagerBox
             </a>
             <nav class="space-x-6">
-                <a href="{{ route('login') }}" class="text-gray-700 hover:text-indigo-600 transition duration-300">Login</a>
-                <a href="{{ route('register') }}" class="bg-indigo-600 text-white px-5 py-3 rounded-full hover:bg-indigo-700 transition duration-300">Sign Up</a>
+                <a href="{{ route('login') }}" class="text-gray-700 hover:text-indigo-600 transition duration-300">Entrar</a>
+                <a href="{{ route('register') }}" class="bg-indigo-600 text-white px-5 py-3 rounded-full hover:bg-indigo-700 transition duration-300">Cadastrar-se</a>
             </nav>
         </div>
     </header>
@@ -76,7 +76,7 @@
     </section>
 
     <!-- Pricing Section -->
-    <section class="py-20 bg-gray-50">
+    {{-- <section class="py-20 bg-gray-50">
         <div class="container mx-auto text-center">
             <h2 class="text-3xl font-semibold text-gray-800 mb-12">Escolha o plano ideal para você</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -105,9 +105,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
-    <!-- Testimonials Section -->
+    {{-- <!-- Testimonials Section -->
     <section class="bg-gray-100 py-20">
         <div class="container mx-auto text-center">
             <h2 class="text-3xl font-semibold text-gray-800 mb-12">O que nossos usuários dizem</h2>
@@ -129,7 +129,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- FAQ Section -->
     <section class="py-20 bg-gray-50">

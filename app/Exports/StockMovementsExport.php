@@ -15,8 +15,8 @@ class StockMovementsExport implements FromCollection, WithHeadings
             ->map(function($movement) {
                 return [
                     'Data' => $movement->created_at->format('d/m/Y H:i'),
-                    'Item' => $movement->item->name,
-                    'Responsável' => $movement->user->name,
+                    'Item' => $movement->item?->name ?? 'Item indisponível',
+                    'Responsável' => $movement->user?->name ?? 'Usuário indisponível',
                     'Tipo' => $movement->movement_type === 'checkin' ? 'Entrada' : 'Saída',
                     'Quantidade' => $movement->quantity
                 ];

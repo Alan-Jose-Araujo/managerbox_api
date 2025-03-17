@@ -111,8 +111,8 @@
                         <tbody>
                             @foreach ($movements as $movement)
                                 <tr>
-                                    <td class="py-2 px-4 border-b">{{ $movement->item?->name }}</td>
-                                    <td class="py-2 px-4 border-b">{{ $movement->user?->name }}</td> <!-- Novo campo -->
+                                    <td class="py-2 px-4 border-b">{{ $movement->item?->name ?? 'Item não disponível'}}</td>
+                                    <td class="py-2 px-4 border-b">{{ $movement->user?->name ?? 'Usuáro não disponível'}}</td> <!-- Novo campo -->
                                     <td class="py-2 px-4 border-b">{{ $movement->quantity }}</td>
                                     <td class="py-2 px-4 border-b">{{ $movement->movement_type }}</td>
                                     <td class="py-2 px-4 border-b">{{ $movement->created_at->format('d/m/Y H:i') }}</td>

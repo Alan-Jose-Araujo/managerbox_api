@@ -79,7 +79,7 @@ class RegisterController extends Controller
 
         Address::create([
             'street' => $request->input('street'),
-            'building_number' => $request->input('building_number'),
+            'building_number' => $request->input('number'),
             'complement' => $request->input('complement'),
             'city' => $request->input('city'),
             'state' => $request->input('state'),
