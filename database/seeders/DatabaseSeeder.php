@@ -16,8 +16,6 @@ class DatabaseSeeder extends Seeder
             MetierSeeder::class,
             PlanSeeder::class,
             RolePermissionSeeder::class,
-            ClientSeeder::class,
-            ItemInStockSeeder::class,
         ]);
     }
 }
